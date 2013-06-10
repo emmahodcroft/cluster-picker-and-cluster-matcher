@@ -1,0 +1,25 @@
+---------------------------------------------------------
+About these jars
+10 June 2013
+---------------------------------------------------------
+
+-------------------
+Cluster Picker jars
+-------------------
+
+ClusterPicker_command.jar	built on 10/06/2013 16:15 by Samantha Lycett
+* Command line operation only:	e.g. java -jar ClusterPicker_command.jar
+
+
+ClusterPickerGUI.jar		built on 10/06/2013 16:15 by Samantha Lycett
+* Cluster Picker GUI application
+
+
+-------------------
+Cluster Matcher jar
+-------------------
+
+ClustMatch1.2.1.jar		copy of jar on http://hiv.bio.ed.ac.uk/software.html as of 10/06/2013
+* Cluster Matcher GUI application
+
+---------------------------------------------------------
