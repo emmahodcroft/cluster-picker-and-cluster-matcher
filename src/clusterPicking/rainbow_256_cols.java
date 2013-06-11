@@ -6,21 +6,24 @@ import java.util.List;
 
 /**
  * class to represent rainbow colours; 256 values
- * this was put in here to make the jar file export easier
- * 
+ * this was put in here to make the jar file export easier (rather than as a separate file as in early versions)
  *  Copyright (C) 2013  Samantha Lycett
  *  
- *  This program is free software: you can redistribute it and/or modify
+ *  This file is part of ClusterPicker.
+ *
+ *  ClusterPicker is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *  
- *  This program is distributed in the hope that it will be useful,
+ *  any later version.
+ *
+ *  ClusterPicker is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
+ *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with ClusterPicker.  If not, see <http://www.gnu.org/licenses/>.
+ *  
  *  
  * @author Samantha Lycett
  * @created 27 March 2012
