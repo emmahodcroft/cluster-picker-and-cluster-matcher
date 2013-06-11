@@ -757,6 +757,85 @@ public class ClusterPicker {
 	}
 	
 	/**
+	 * timing test run for Cluster Picker - note the paths etc are hardwired for SJL testing.
+	 * Also this timing test is not the same as Manon's timing test reported in the paper.
+	 */
+	public static void timingTest() {
+		
+		System.out.println("** Timing Test **");
+		
+		double initialThres 				= 0.9;
+		double supportThres					= 0.9;
+		double geneticThres					= 4.5/100;
+		int 	largeClusterThres			= 10;
+		BasicSequence.differenceType 		= "gap";
+		
+		// default settings
+		String path				= "C://Users//Samantha Lycett//Documents//Manon//CPT_Write-up//tests//";
+		String sname			= "HIVpol20000uniqueRenamed.fas";
+		String tname			= "tr";
+		
+		
+		String sequencesName 	= path + sname;
+		
+		//////////////////////////////////////////////////////////
+		System.out.print("Initialise Cluster Picker ");
+		long t1 = System.currentTimeMillis();
+		
+		ClusterPicker cp = new ClusterPicker();
+		cp.setInitialSupportThres(initialThres);
+		cp.setSupportThres(supportThres);
+		cp.setGeneticThres(geneticThres);
+		cp.setLargeClusterThreshold(largeClusterThres);
+		cp.verbose = false;
+		
+		long t2 = System.currentTimeMillis();
+		System.out.println("in "+(float)(t2-t1)/1000.0+"s");
+		
+		//////////////////////////////////////////////////////////
+		
+		System.out.print("Read sequences ");
+		long t3 = System.currentTimeMillis();
+		
+		cp.readSequences(sequencesName);
+		
+		long t4 = System.currentTimeMillis();
+		System.out.println("in "+(float)(t4-t3)/1000.0+"s");
+
+		//////////////////////////////////////////////////////////
+		
+		for (int i = 18; i >= 1; i--) {
+		
+			String treeName 		= path + tname + i + ".nwk";
+			
+			System.out.println("---------------------------------------");
+		
+			long t5 = System.currentTimeMillis();
+			cp.readTree(treeName);
+			long t6 = System.currentTimeMillis();
+			System.out.print("Read tree in "+(float)(t6-t5)/1000.0+"s");
+			
+
+			long t7 = System.currentTimeMillis();
+			cp.processData();
+			long t8 = System.currentTimeMillis();
+			System.out.print("\tProcess data in "+(float)(t8-t7)/1000.0+"s with "+cp.theTree.tipNames().size()+" tips");
+			
+
+			long t9 = System.currentTimeMillis();
+			cp.writeResults();
+			long t10 = System.currentTimeMillis();
+			System.out.println("\tWrite results in "+(float)(t10-t9)/1000.0+"s");
+			
+			
+			System.out.println("---------------------------------------");
+		}
+		
+		
+	}
+	
+	
+	/**
 	 * run cluster picker using input arguments, or enter via prompts
 	 * @param args
 	 */
@@ -991,6 +1070,7 @@ public class ClusterPicker {
 		
 		run(args);
 		//test();
+		//timingTest();
 		
 		System.out.println("** END **");
 	}
