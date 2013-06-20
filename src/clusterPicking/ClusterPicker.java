@@ -43,6 +43,7 @@ import java.io.*;
  * @version 1  July  2012 - added missingSeqs and missingTips specifically for use with ClusterPickerGUI
  * @version 4  July  2012 - added numMissingSeqs and numMissingTips for use with ClusterPickerGUI
  * @version 4  July  2012 - added numberOfClusters and numberOfLargeClusters for use with ClusterPickerGUI
+ * @version 20 July  2013 - corrections for command line operation from a single line
  */
 public class ClusterPicker {
 	
@@ -994,6 +995,7 @@ public class ClusterPicker {
 			System.out.println("---------------------------------------");
 			//////////////////////////////////////////////////////////////////////////////////
 			
+			again = false;			// need to set this to false if not in interactive mode
 			
 			// if in interactive mode then ask about doing it again
 			if (args.length == 0) {
