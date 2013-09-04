@@ -262,6 +262,35 @@ public class TreeTester {
 		
 	}
 	
+	public static void test8() {
+		System.out.println("** Cluster Picker Test on BEAST Tree -> NWK only **");
+		
+		String path 				=  "C://data//human_flu//epidemics3//scottish//clades//";
+		String name 				=  "genomes_492";
+		
+		//String treeName		 		= path + name + "_GTR_GI4_strict_exponentialGrowth_expPriors_4.combined.tre.posterior.1.nwk";
+		String treeName				= path + name + "_beast_mcc.nwk";
+		
+		double initialSupportThres 	= 0.5;
+		double supportThres	 		= 0.5;
+		double geneticThres			= 4.5/100;
+		
+		String sequencesName 		= path + name + ".fas";
+		
+		
+		//BasicSequence.useAbs = false;
+		//BasicSequence.differenceType 		= "gap";
+		
+		ClusterPicker cp = new ClusterPicker();
+		cp.setInitialSupportThres(initialSupportThres);
+		cp.setSupportThres(supportThres);
+		cp.setGeneticThres(geneticThres);
+		cp.readSequences(sequencesName);
+		cp.readTree(treeName);
+		cp.processData();
+		cp.writeResults();
+		
+	}
 	
 	public static void main (String args[]) {
 		System.out.println("** Trees Tester **");
@@ -271,9 +300,10 @@ public class TreeTester {
 		//test4();
 		//test5();
 		//test6();
-		test7();
+		//test7();
 		
 		//testBEASTTree();
+		test8();
 		
 		System.out.println("** END **");
 	}
