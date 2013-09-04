@@ -45,11 +45,12 @@ import java.beans.PropertyChangeEvent;
  * @version 10 July 2012
  * @version 23 July 2012 - genetic distance threshold should set correctly now
  * @version 10 June 2013 - added license details and URL etc to about box
+ * @version 4  Sept 2013 - rebuilt with new ReadFasta
  */
 public class ClusterPickerGUI {
 	
 	protected String appName   = "ClusterPicker";
-	protected String version   = "1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
+	protected String version   = "1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
 	protected String author	   = "Dr. S. J. Lycett";
 	protected String institute = "University of Edinburgh";
 	protected String citation  = "Ragonnet-Cronin et al Automated Analysis of Phylogenetic Clusters";
