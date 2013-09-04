@@ -26,6 +26,7 @@ import java.util.*;
  * @created	19 Sept 07
  * @version	19 Sept 07
  * @version 26 Sept 07
+ * @version 4  Sept 2013 - using nextLine rather than specifying delimiter on Scanner
  *
  */
 public class ReadFasta {
@@ -62,7 +63,8 @@ public class ReadFasta {
 		File inputFile 	= new File(filename);
 		try {
 			// set up scanner to read one line at a time
-			dataFile	= new Scanner(inputFile).useDelimiter("\n");
+			//dataFile	= new Scanner(inputFile).useDelimiter("\n");
+			dataFile	= new Scanner(inputFile);						// 4 Sept 2013
 			open		= true;
 		} catch (FileNotFoundException e) {
 			System.out.println("Sorry file "+filename+" not found");
@@ -94,7 +96,8 @@ public class ReadFasta {
 		
 			// while not at start line
 			while ( ( !line.startsWith(recordStart) ) && (dataFile.hasNext()) ) {
-				line = dataFile.next().trim();
+				//line = dataFile.next().trim();
+				line = dataFile.nextLine().trim();			// 4 Sept 2013
 			}
 			
 			// add the header line
@@ -104,7 +107,8 @@ public class ReadFasta {
 			String sequence = "";
 			// while not at a start line
 			while ( ( !line.startsWith(recordStart) ) && (dataFile.hasNext()) ) {
-				line 		= dataFile.next().trim();
+				//line 		= dataFile.next().trim();
+				line		= dataFile.nextLine().trim();	// 4 Sept 2013
 				
 				if ( !line.startsWith(recordStart) ) {
 					sequence 	= sequence + line;
