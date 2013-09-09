@@ -1,6 +1,6 @@
 ---------------------------------------------------------
 About these jars
-4 Sept 2013
+9 Sept 2013
 ---------------------------------------------------------
 
 -------------------
@@ -20,7 +20,7 @@ ClusterPickerGUI.jar		built on 04/09/2013 14:32 by Samantha Lycett
 Cluster Matcher jar
 -------------------
 
-ClustMatch1.2.3.jar		built on 11/06/2013 11:42 by Samantha Lycett from Eclipse
+ClustMatch1.2.3.jar		built on 09/09/2013 10:44 by Samantha Lycett from Eclipse
 * Cluster Matcher GUI application
 
 ---------------------------------------------------------

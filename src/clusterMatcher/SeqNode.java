@@ -1,6 +1,6 @@
 package clusterMatcher;
 
-/* Copyright 2011-2013 Emma Hodcroft
+/** Copyright 2011-2013 Emma Hodcroft
  * This file is part of ClusterMatcher. (Also may be referred to as
  * "ClustMatcher" or "ClustMatch".)
  *

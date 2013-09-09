@@ -1,6 +1,6 @@
 package clusterMatcher;
 
-/* Copyright 2011-2013 Emma Hodcroft
+/** Copyright 2011-2013 Emma Hodcroft
  * This file is part of ClusterMatcher. (Also may be referred to as
  * "ClustMatcher" or "ClustMatch".)
  *
@@ -39,7 +39,8 @@ public class ReadInClusters {
     boolean verbose = false;
     private String newickFile;
     private String wholeTree;
-    private String[] totalNodes;
+    private String[] totalNodes; //stores all tip names with prefix (Clust11_2223)
+    private String[] totalSeqNames; //stores all seq names without prefix (2223)
     private int nodesInClusters=0;
     HashMap<String,SeqNode> clustSeqs = new HashMap<String,SeqNode>();
     HashMap<String,ClusPtr> clusters = new HashMap<String,ClusPtr>();
@@ -254,14 +255,25 @@ public class ReadInClusters {
         return totalNodes;
     }
 
+    public String[] getSeqNames()
+    {
+        return totalSeqNames;
+    }
+
     //returns all the nodes in a specified tree code
     private String[] getNodes(String tree)
     {
         String [] nods = tree.split(",");
+        totalSeqNames = new String [nods.length];
+
         for(int i=0;i<nods.length; i++)
         {
             nods[i] = nods[i].split(":")[0].replaceAll("\\(", "");
-            //System.out.println(nods[i]);
+
+            if(nods[i].contains(new String("_")))
+                totalSeqNames[i] = nods[i].split("_")[1];
+            else
+                totalSeqNames[i] = nods[i];
         }
         return nods;
     }
