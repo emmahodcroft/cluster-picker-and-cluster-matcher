@@ -1,6 +1,6 @@
 package clusterMatcher;
 
-/* Copyright 2011-2013 Emma Hodcroft
+/** Copyright 2011-2013 Emma Hodcroft
  * This file is part of ClusterMatcher. (Also may be referred to as
  * "ClustMatcher" or "ClustMatch".)
  *
@@ -31,11 +31,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-/**
- * @author Emma
- * @author Samantha Lycett
- * @version 11 June 2013 - SJL changed loading of image files
- */
 public class Wind extends JFrame
 {
     // Allows consule debug messages to be turned on (true) or off(false)
@@ -85,11 +80,11 @@ public class Wind extends JFrame
                         JTextField newDs2T = new JTextField(18);
                     JPanel ds2clusP = new JPanel(new FlowLayout());
 
-                    	// SJL 11 June 2013 - trying to make work in Eclipse
-                        //JCheckBox anotDs2CB = new JCheckBox("Annotation file:", new ImageIcon(getClass().getResource("invisBox.jpg")));
-                        JCheckBox anotDs2CB = new JCheckBox("Annotation file:", new ImageIcon("src\\invisBox.jpg") );
-                        
-                        JTextField anotDs2T = new JTextField(18);
+                    // SJL 11 June 2013 - trying to make work in Eclipse
+                    //JCheckBox anotDs2CB = new JCheckBox("Annotation file:", new ImageIcon(getClass().getResource("invisBox.jpg")));
+                    JCheckBox anotDs2CB = new JCheckBox("Annotation file:", new ImageIcon("src\\invisBox.jpg") );
+                    
+                    JTextField anotDs2T = new JTextField(18);
 
             JPanel matchAP = new JPanel();
             JPanel matchAnnotP = new JPanel();
@@ -102,7 +97,7 @@ public class Wind extends JFrame
                     //JCheckBox sameMatCB = new JCheckBox("Sequence names are the same in both data sets.", new ImageIcon("src\\invisBox.jpg"));
                     
                     // SJL 11 June 2013 - trying to make work in Eclipse
-                    // JCheckBox sameMatCB = new JCheckBox("Sequence names are the same in both data sets.", new ImageIcon(getClass().getResource("invisBox.jpg")));
+                    //JCheckBox sameMatCB = new JCheckBox("Sequence names are the same in both data sets.", new ImageIcon(getClass().getResource("invisBox.jpg")));
                     
                     JCheckBox sameMatCB = new JCheckBox("Sequence names are the same in both data sets.", new ImageIcon("src\\invisBox.jpg"));
                     
@@ -183,6 +178,7 @@ String[] dataSets = {"Data Set 1", "Data Set 2", "Both"};
         JPanel extendInfP = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
             JCheckBox extendInfCB = new JCheckBox("Print a .csv file with extended information about the clusters");
             JButton extendInfB = new JButton("?");
+            JButton extendInfBPrint = new JButton("Print just .csv file");
 
         JPanel previewP = new JPanel();
             JButton prevB = new JButton ("Preview");
@@ -502,6 +498,9 @@ String[] dataSets = {"Data Set 1", "Data Set 2", "Both"};
                     extendInfP.add(extendInfB);
                         extendInfB.setMargin(new Insets(0,0,0,0));
                         extendInfB.setForeground(Color.BLUE);
+                    extendInfP.add(new Label(" "));
+                    extendInfP.add(extendInfBPrint);
+                        extendInfBPrint.setMargin(new Insets(0,0,0,0));
                     c0.anchor = GridBagConstraints.WEST;
                     c0.gridy = 7;
                     c0.gridwidth = 2;
@@ -600,6 +599,7 @@ String[] dataSets = {"Data Set 1", "Data Set 2", "Both"};
         enableExtInfoP(ena);
         enablePreviewP(ena);
         enableRunP(ena);
+        extendInfBPrint.setEnabled(ena);
 
         optPaneDisabled = ena;
     }
@@ -661,6 +661,7 @@ String[] dataSets = {"Data Set 1", "Data Set 2", "Both"};
     {
         extendInfCB.setEnabled(ena);
         extendInfB.setEnabled(ena);
+    //    extendInfBPrint.setEnabled(ena);
     }
 
     //functions to enable/disable each panel

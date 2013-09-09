@@ -1,6 +1,6 @@
 package clusterMatcher;
 
-/* Copyright 2011-2013 Emma Hodcroft
+/** Copyright 2011-2013 Emma Hodcroft
  * This file is part of ClusterMatcher. (Also may be referred to as
  * "ClustMatcher" or "ClustMatch".)
  *
@@ -56,7 +56,6 @@ import java.beans.*;
 /**
  *
  * @author Emma
- * @version 11 June 2013 - SJL changed loading of image files
  */
 public class Main extends Wind implements WindowListener, ItemListener, ActionListener, MouseListener, DocumentListener, PropertyChangeListener
 {
@@ -70,8 +69,8 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
     String writtenFiles=""; //keeps track of what files have been written so warns before overwrite and can delete
     String lastDir = null; //keeps track of the directory the user is using so that they can load files more quickly
                         //and with less chance of suicidal urges
-    String outFile = "**Cluster Matcher**\n-------------------\nCreated 2012 by Emma Hodcroft"
-            + "\nLeigh Brown Group, Edinburgh University\n=======================================\n\n";
+    String outFile = "**Cluster Matcher**\r\n-------------------\r\nCreated 2012 by Emma Hodcroft"
+            + "\r\nLeigh Brown Group, Edinburgh University\r\n=======================================\r\n\r\n";
     String logFile = ""; //keeps track of the name of the logFile so that if the user chooses to delete
                     //previous runs, the logfile is not deleted as well!
 
@@ -130,6 +129,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         outHelpB.addActionListener(this);
         matHelpB.addActionListener(this);
         extendInfB.addActionListener(this);
+        extendInfBPrint.addActionListener(this);
 
         cheat.addActionListener(this);
         cheat2.addActionListener(this);
@@ -592,9 +592,9 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         if(clus!=null && clus.length != 0 && !isArrayEmpty(clus))
         {
             number = clus.length;
-            if(b == runB)
+            if(b == runB || b == extendInfBPrint)
             {
-                task2 = new Task2(clus, whi, annot);
+                task2 = new Task2(clus, whi, annot, b);
                 pm = new ProgressMonitor(Main.this, "Writing files...", "", 0, task2.getLengthOfTask());
                 pm.setMillisToDecideToPopup(5);
                 pm.setMillisToPopup(5);
@@ -605,7 +605,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
 
             }
         }
-        else if(b == runB)
+        else if(b == runB || b == extendInfBPrint)
         {
             String mes = "Sorry, no clusters matching those parameters were found.";
             if(verbose) System.out.println(mes);
@@ -651,9 +651,9 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
             if(clus!=null && clus.length != 0 && !isArrayEmpty(clus))
             {
                 number = clus.length;
-                if(b == runB)
+                if(b == runB || b == extendInfBPrint)
                 {
-                    task = new Task(clus, whi, true);
+                    task = new Task(clus, whi, true, b);
                     pm = new ProgressMonitor(Main.this, "Writing files...", "", 0, task.getLengthOfTask());
                     pm.setMillisToDecideToPopup(5);
                     pm.setMillisToPopup(5);
@@ -663,7 +663,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     task.execute();
                 }
             }
-            else if(b==runB)
+            else if(b==runB || b == extendInfBPrint)
             {
                 String mes = "Sorry, no clusters matching those parameters were found.";
                 System.out.println(mes);
@@ -672,7 +672,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 validate();
             }
         }
-        else if(b==runB)
+        else if(b==runB || b == extendInfBPrint)
         {
             String mes = "Sorry, no clusters matching those parameters were found.";
             System.out.println(mes);
@@ -710,9 +710,9 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
             if(clus!=null && clus.length != 0 && !isArrayEmpty(clus))
             {
                 number = clus.length;
-                if(b == runB) //only if running print files
+                if(b == runB || b == extendInfBPrint) //only if running print files
                 {
-                    task2 = new Task2(clus, whi, true);
+                    task2 = new Task2(clus, whi, true, b);
                     pm = new ProgressMonitor(Main.this, "Writing files...", "", 0, task2.getLengthOfTask());
                     pm.setMillisToDecideToPopup(5);
                     pm.setMillisToPopup(5);
@@ -723,7 +723,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
 
                 }
             }
-            else if(b == runB)
+            else if(b == runB || b == extendInfBPrint)
             {
                 String mes = "Sorry, no clusters matching those parameters were found.";
                 System.out.println(mes);
@@ -732,7 +732,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 validate();
             }
         }
-        else if(b==runB)
+        else if(b==runB || b == extendInfBPrint)
         {
             String mes = "Sorry, no clusters matching those parameters were found.";
             System.out.println(mes);
@@ -762,9 +762,9 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         if(clus!=null && clus.length != 0 && !isArrayEmpty(clus))
         {
             number = clus.length;
-            if(b==runB)
+            if(b==runB || b == extendInfBPrint)
             {
-                task = new Task(clus, whi, annot);
+                task = new Task(clus, whi, annot, b);
                 pm = new ProgressMonitor(Main.this, "Writing files...", "", 0, task.getLengthOfTask());
                 pm.setMillisToDecideToPopup(5);
                 pm.setMillisToPopup(5);
@@ -774,7 +774,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 task.execute();
             }
         }
-        else if(b==runB)
+        else if(b==runB || b == extendInfBPrint)
         {
             String mes = "Sorry, no clusters matching those parameters were found.";
             System.out.println(mes);
@@ -784,7 +784,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         }
 
         long end = System.currentTimeMillis();
-        System.out.println("Start: "+start+" End: "+end+"  Total: "+(end-start));
+        if(verbose) System.out.println("Start: "+start+" End: "+end+"  Total: "+(end-start));
 
         makeOutputFile2(number, clus, b);
         return number;
@@ -797,7 +797,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
      *
      * THIS is function called if the sequence names are DIFFERENT between Data sets!!
      */
-    public void printClusterMatch(int whi, String cluster, boolean annot)
+    public void printClusterMatch(int whi, String cluster, boolean annot, JButton b)
     {
      long st = System.currentTimeMillis(); //for timing the efficiency of the function
 
@@ -820,7 +820,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         String[] ric2TotNodes = ricO.getTotalNodes();
 
         //prints extended cluster info if requested by the user:
-        if(extendInfCB.isSelected())
+        if(extendInfCB.isSelected() || b == extendInfBPrint) //if tickbox selected OR button was pressed
         {
             String info = whi+","+cluster+",\"";
             String[] mats = ric.getClusterMatches(cluster);
@@ -885,160 +885,164 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         }
         //extended cluster info 
 
-        String file = "";
-        file = "#NEXUS"
-                +"\nbegin taxa;"
-                +"\ndimensions ntax="+(totNodes.length+ric2TotNodes.length)+";"
-                +"\n\ttaxlabels\n";
-
- long stAllSeq = System.currentTimeMillis(); //for timing the efficiency of the function
- //there used to be code in here, hence the two timers
- long loopArray = System.currentTimeMillis(); //for timing the efficiency of the function
-
-        //if the sequences
-        String totN = Arrays.toString(totNodes);
-        totN = totN.substring(1,totN.length()-1);
-        totN = totN.replaceAll(", ", "\n\t");
-        file = file + "\t"+totN+"\n";
-        totN = null;
-
-        totN = Arrays.toString(ric2TotNodes);
-        totN = totN.substring(1,totN.length()-1);
-        totN = totN.replaceAll(", ", "\n\t");
-        file = file + "\t"+totN+"\n";
-        totN = null;
-
-
-long stTrees = System.currentTimeMillis(); //for timing the efficiency of the function
-        //now make a new string to hold the tree code
-        //put in the full tree ds1, cluster ds1, cluster(s) ds2, full tree ds2
-        String treeFile1="", treeFile2="";
-        String tree1="", tree2="";
-        if(ric.isAnnot() && annot)
-            tree1 = ric.getWholeTree(cluster);
-        else
-            tree1 = ric.getWholeTree();
-        treeFile1 = treeFile1+"\ttree allDataSet"+whi+" = [&R] "+tree1+"\n"; //file = file+"\ttree allDataSet"+whi+" = [&R] "+ric.getWholeTree()+"\n";
-        treeFile1 = treeFile1+"\ttree ds"+whi+"_Clust"+cluster+" = [&R] "+ric.getClusterCode(cluster, annot)+"\n";
-
-        for(int i=0;i<matches.length; i++)
+        if(b == runB)
         {
-            treeFile2 = treeFile2+"\ttree ds"+(3-whi)+"_Clust"+matches[i]+" = [&R] "+ricO.getClusterCode(matches[i], annot)+"\n";
-        }
-        if(ricO.isAnnot() && annot)
-            tree2 = ricO.getWholeTree(matches);
-        else
-            tree2 = ricO.getWholeTree();
-        treeFile2 = treeFile2+"\ttree allDataSet"+(3-whi)+" = [&R] "+tree2+"\n"//file = file+"\ttree allDataSet"+(3-whi)+" = [&R] "+ricO.getWholeTree()+"\n"
-        +"end;\n";
 
-long stRIC1 = System.currentTimeMillis(); //for timing the efficiency of the function
-        //now search the existing list of sequences and replace those in clusters/with matches etc
-        //first search for those in the cluster in RIC1
-        String[] seqs = ric.getSeqsInCluster(cluster);
-        for(int i=0; i<seqs.length; i++)
-        {
-            String p ="Clust"+cluster+"_"+seqs[i];
-            String orig = p;
-            //get annot code so can display as tip labels the annots
-            String seqAnnot = "";
-            if(annot == true)
-                seqAnnot = ric.getTrimmedSeqAnnot(seqs[i]);
-            if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
-            if(ric.hasMatch(seqs[i]))
-            {
-                String m = ric.getMatch(seqs[i]);//ric.getFullMatch(seqs[i]);
-                p = p+"{"+m+"}[&!color=#FF0000"+seqAnnot+"]";  //if a match, colour red
-                //treeFile1 = treeFile1.replaceAll(orig, orig+"{"+m+"}");
-                treeFile1 = treeFile1.replace(orig, orig+"{"+m+"}");
-            }
+            String file = "";
+            file = "#NEXUS"
+                    +"\nbegin taxa;"
+                    +"\ndimensions ntax="+(totNodes.length+ric2TotNodes.length)+";"
+                    +"\n\ttaxlabels\n";
+
+     long stAllSeq = System.currentTimeMillis(); //for timing the efficiency of the function
+     //there used to be code in here, hence the two timers
+     long loopArray = System.currentTimeMillis(); //for timing the efficiency of the function
+
+            //if the sequences
+            String totN = Arrays.toString(totNodes);
+            totN = totN.substring(1,totN.length()-1);
+            totN = totN.replaceAll(", ", "\n\t");
+            file = file + "\t"+totN+"\n";
+            totN = null;
+
+            totN = Arrays.toString(ric2TotNodes);
+            totN = totN.substring(1,totN.length()-1);
+            totN = totN.replaceAll(", ", "\n\t");
+            file = file + "\t"+totN+"\n";
+            totN = null;
+
+
+    long stTrees = System.currentTimeMillis(); //for timing the efficiency of the function
+            //now make a new string to hold the tree code
+            //put in the full tree ds1, cluster ds1, cluster(s) ds2, full tree ds2
+            String treeFile1="", treeFile2="";
+            String tree1="", tree2="";
+            if(ric.isAnnot() && annot)
+                tree1 = ric.getWholeTree(cluster);
             else
-                p = p+"[&!color=#0000FF"+seqAnnot+"]"; //if just in the cluster, colour blue
+                tree1 = ric.getWholeTree();
+            treeFile1 = treeFile1+"\ttree allDataSet"+whi+" = [&R] "+tree1+"\n"; //file = file+"\ttree allDataSet"+whi+" = [&R] "+ric.getWholeTree()+"\n";
+            treeFile1 = treeFile1+"\ttree ds"+whi+"_Clust"+cluster+" = [&R] "+ric.getClusterCode(cluster, annot)+"\n";
 
-            //file = file.replaceAll(orig, p);
-            file = file.replace(orig, p);
-        }
-
-long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the function
-        //now search for those in the matching clusters in RIC2
-        for(int i=0; i<matches.length; i++)//for each cluster that matches
-        {
-            seqs = ricO.getSeqsInCluster(matches[i]);
-            for(int j=0; j<seqs.length; j++)
+            for(int i=0;i<matches.length; i++)
             {
-                String p = "Clust"+matches[i]+"_"+seqs[j];
+                treeFile2 = treeFile2+"\ttree ds"+(3-whi)+"_Clust"+matches[i]+" = [&R] "+ricO.getClusterCode(matches[i], annot)+"\n";
+            }
+            if(ricO.isAnnot() && annot)
+                tree2 = ricO.getWholeTree(matches);
+            else
+                tree2 = ricO.getWholeTree();
+            treeFile2 = treeFile2+"\ttree allDataSet"+(3-whi)+" = [&R] "+tree2+"\n"//file = file+"\ttree allDataSet"+(3-whi)+" = [&R] "+ricO.getWholeTree()+"\n"
+            +"end;\n";
+
+    long stRIC1 = System.currentTimeMillis(); //for timing the efficiency of the function
+            //now search the existing list of sequences and replace those in clusters/with matches etc
+            //first search for those in the cluster in RIC1
+            String[] seqs = ric.getSeqsInCluster(cluster);
+            for(int i=0; i<seqs.length; i++)
+            {
+                String p ="Clust"+cluster+"_"+seqs[i];
                 String orig = p;
                 //get annot code so can display as tip labels the annots
                 String seqAnnot = "";
                 if(annot == true)
-                    seqAnnot = ricO.getTrimmedSeqAnnot(seqs[j]);
+                    seqAnnot = ric.getTrimmedSeqAnnot(seqs[i]);
                 if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
-                //see if has a match
-                String matClus = ricO.getMatchClus(seqs[j]);
-                if(matClus == null) //if no match
+                if(ric.hasMatch(seqs[i]))
                 {
-                    p = p + "[&!color=#0000FF"+seqAnnot+"]"; //color blue as part of cluster
+                    String m = ric.getMatch(seqs[i]);//ric.getFullMatch(seqs[i]);
+                    p = p+"{"+m+"}[&!color=#FF0000"+seqAnnot+"]";  //if a match, colour red
+                    //treeFile1 = treeFile1.replaceAll(orig, orig+"{"+m+"}");
+                    treeFile1 = treeFile1.replace(orig, orig+"{"+m+"}");
                 }
-                else if(matClus.equals(cluster)) //if a match in the cluster in RIC1
-                {
-                    p = p + "[&!color=#FF0000"+seqAnnot+"]"; //color red as match
-                }
-                else //if a match with another sequence, not in RIC1 cluster
-                {
-                    p = p + "[&!color=#008000"+seqAnnot+"]"; //color green
-                    //and colour the match green too!
-                    String mat = ricO.getFullMatch(seqs[j]);
-                    String sA = "";
-                    if(annot==true)
-                        sA = ric.getTrimmedSeqAnnot(ricO.getMatch(seqs[j]));
-                    if(!sA.isEmpty()) sA = ","+sA;
-                    String rep = mat + "{"+seqs[j]+"}[&!color=#008000"+sA+"]";
-                    //file = file.replaceAll(mat, rep);
-                    file = file.replace(mat, rep);
-                    //replace in tree file too
-                    //treeFile1 = treeFile1.replaceAll(mat, mat+"{"+seqs[j]+"}");
-                    treeFile1 = treeFile1.replace(mat, mat+"{"+seqs[j]+"}");
-                }
+                else
+                    p = p+"[&!color=#0000FF"+seqAnnot+"]"; //if just in the cluster, colour blue
+
                 //file = file.replaceAll(orig, p);
                 file = file.replace(orig, p);
             }
-        }
 
-        file = file+"\t;\n"
-        +"end;\n"
-        +"begin trees;\n";
+    long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the function
+            //now search for those in the matching clusters in RIC2
+            for(int i=0; i<matches.length; i++)//for each cluster that matches
+            {
+                seqs = ricO.getSeqsInCluster(matches[i]);
+                for(int j=0; j<seqs.length; j++)
+                {
+                    String p = "Clust"+matches[i]+"_"+seqs[j];
+                    String orig = p;
+                    //get annot code so can display as tip labels the annots
+                    String seqAnnot = "";
+                    if(annot == true)
+                        seqAnnot = ricO.getTrimmedSeqAnnot(seqs[j]);
+                    if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
+                    //see if has a match
+                    String matClus = ricO.getMatchClus(seqs[j]);
+                    if(matClus == null) //if no match
+                    {
+                        p = p + "[&!color=#0000FF"+seqAnnot+"]"; //color blue as part of cluster
+                    }
+                    else if(matClus.equals(cluster)) //if a match in the cluster in RIC1
+                    {
+                        p = p + "[&!color=#FF0000"+seqAnnot+"]"; //color red as match
+                    }
+                    else //if a match with another sequence, not in RIC1 cluster
+                    {
+                        p = p + "[&!color=#008000"+seqAnnot+"]"; //color green
+                        //and colour the match green too!
+                        String mat = ricO.getFullMatch(seqs[j]);
+                        String sA = "";
+                        if(annot==true)
+                            sA = ric.getTrimmedSeqAnnot(ricO.getMatch(seqs[j]));
+                        if(!sA.isEmpty()) sA = ","+sA;
+                        String rep = mat + "{"+seqs[j]+"}[&!color=#008000"+sA+"]";
+                        //file = file.replaceAll(mat, rep);
+                        file = file.replace(mat, rep);
+                        //replace in tree file too
+                        //treeFile1 = treeFile1.replaceAll(mat, mat+"{"+seqs[j]+"}");
+                        treeFile1 = treeFile1.replace(mat, mat+"{"+seqs[j]+"}");
+                    }
+                    //file = file.replaceAll(orig, p);
+                    file = file.replace(orig, p);
+                }
+            }
 
-        //now add the tree file holders to the file
-        file = file+treeFile1+treeFile2;
+            file = file+"\t;\n"
+            +"end;\n"
+            +"begin trees;\n";
 
-        file = file+"begin figtree;\n"
-	+"\tset tipLabels.colorAttribute=\"User Selection\";\n"
-	+"\tset tipLabels.displayAttribute=\"Names\";\n"
-	+"\tset tipLabels.fontName=\"Arial\";\n"
-	+"\tset tipLabels.fontSize=10;\n"
-	+"\tset tipLabels.fontStyle=0;\n"
-	+"\tset tipLabels.isShown=true;\n"
-	+"\tset tipLabels.significantDigits=4;\n"
-	+"\tset trees.order=true;\n"
-	+"\tset trees.orderType=\"increasing\";\n"
-	+"\tset trees.rooting=false;\n"
-	+"\tset trees.rootingType=\"User Selection\";\n"
-	+"\tset trees.transform=false;\n"
-	+"\tset trees.transformType=\"cladogram\";\n"
-        +"\tset branchLabels.fontName=\"Arial\";\n"
-	+"\tset branchLabels.fontSize=10;\n"
-	+"\tset scaleBar.fontSize=11.0;\n"
-        +"end;\n";
+            //now add the tree file holders to the file
+            file = file+treeFile1+treeFile2;
+
+            file = file+"begin figtree;\n"
+            +"\tset tipLabels.colorAttribute=\"User Selection\";\n"
+            +"\tset tipLabels.displayAttribute=\"Names\";\n"
+            +"\tset tipLabels.fontName=\"Arial\";\n"
+            +"\tset tipLabels.fontSize=10;\n"
+            +"\tset tipLabels.fontStyle=0;\n"
+            +"\tset tipLabels.isShown=true;\n"
+            +"\tset tipLabels.significantDigits=4;\n"
+            +"\tset trees.order=true;\n"
+            +"\tset trees.orderType=\"increasing\";\n"
+            +"\tset trees.rooting=false;\n"
+            +"\tset trees.rootingType=\"User Selection\";\n"
+            +"\tset trees.transform=false;\n"
+            +"\tset trees.transformType=\"cladogram\";\n"
+            +"\tset branchLabels.fontName=\"Arial\";\n"
+            +"\tset branchLabels.fontSize=10;\n"
+            +"\tset scaleBar.fontSize=11.0;\n"
+            +"end;\n";
 
 
-        printStringToFile(file, clustFile);
-  long en = System.currentTimeMillis(); //for timing the efficiency of the function
-        if(verbose) //for timing the efficiency of the function
-        {
-            System.out.println("Print " + cluster + ": \ntot: " + (en - st) + ""
-                + "  1: "+(stAllSeq-st)+"  2: "+ (stTrees-stAllSeq)
-                + "  3: "+(stRIC1-stTrees)+"  4: "+ (stRIC2-stRIC1)
-                + "  5: "+(en-stRIC2) + "  loopArray: "+(stTrees-loopArray));
+            printStringToFile(file, clustFile);
+      long en = System.currentTimeMillis(); //for timing the efficiency of the function
+            if(verbose) //for timing the efficiency of the function
+            {
+                System.out.println("Print " + cluster + ": \ntot: " + (en - st) + ""
+                    + "  1: "+(stAllSeq-st)+"  2: "+ (stTrees-stAllSeq)
+                    + "  3: "+(stRIC1-stTrees)+"  4: "+ (stRIC2-stRIC1)
+                    + "  5: "+(en-stRIC2) + "  loopArray: "+(stTrees-loopArray));
+            }
         }
     }
 
@@ -1049,7 +1053,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
      *
      * THIS is the function called if the sequence names are the SAME between Data sets!
      */
-    public void printClusterMatchSame(int whi, String cluster, boolean annot)
+    public void printClusterMatchSame(int whi, String cluster, boolean annot, JButton b)
     {
      long st = System.currentTimeMillis(); //for timing the efficiency of the function
 
@@ -1072,7 +1076,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         String[] ric2TotNodes = ricO.getTotalNodes();
 
         //prints extended cluster info if requested by the user:
-        if(extendInfCB.isSelected())
+        if(extendInfCB.isSelected() || b == extendInfBPrint) //if tickbox selected OR button was pressed
         {
             String info = whi+","+cluster+",\"";
             String[] mats = ric.getClusterMatches(cluster);
@@ -1137,172 +1141,176 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         }
         //extended cluster info
 
-        String file = "";
-
- long stAllSeq = System.currentTimeMillis(); //for timing the efficiency of the function
- //there used to be code in here, hence the two timers
- long loopArray = System.currentTimeMillis(); //for timing the efficiency of the function
-
-        //print each sequence only once - do not simply print all sequences from both
-        //data sets or there will be duplicates!!
-        //HOWEVER, sequences that have the same sequence name MAY NOT have the same FULL seq name
-        //because they may be in diff numbered clusters by chance!! (OR they could be!)
-        //Seq 1212 could be in Clust11 in data set 1 AND Clust11 in data set 2
-        //OR could be in Clust11 in data set 1 and Clust20 in data set 2!
-        //In first case, Clust11_1212 needs to go into taxtabels ONCE and be annotated ONCE
-        //In second case, Clust11_1212 and Clust20_1212 BOTH need to go into taxlabels and BOTh need to be annotated
- 
-        //I got this idea to solve this from: http://www.theeggeadventure.com/wikimedia/index.php/Java_Unique_List
-        java.util.List ric1List = Arrays.asList(totNodes); //get list of all seqs in data set 1
-        java.util.List ric2List = Arrays.asList(ric2TotNodes); //get list of all seqs in data set 2
-        HashSet set = new HashSet(ric1List); //put into hashed set - will disregard duplicates!!
-        HashSet set2 = new HashSet(ric2List);
-        set.addAll(set2); //add all data set 2 seqs to data set 1 hashset
-        
-        String totN = set.toString(); //now we can put to a string knowing duplicates are removed
-        totN = totN.substring(1,totN.length()-1); //get rid of [ and ] at begin and end
-        totN = totN.replaceAll(", ", "\n\t"); //replace commas with new lines and tabs
-        //because all the seqs were added in this one go, don't need to do separately for data set 1 and data set 2
-
-        //but only NOW add the file heading to the file because we know the length of the unique nodes....
-        file = "#NEXUS"
-        +"\nbegin taxa;"
-        +"\ndimensions ntax="+set.size()+";"
-        +"\n\ttaxlabels\n";
-        file = file + "\t"+totN+"\n";
-        totN = null;
-
-long stTrees = System.currentTimeMillis(); //for timing the efficiency of the function
-        //now make a new string to hold the tree code
-        //put in the full tree ds1, cluster ds1, cluster(s) ds2, full tree ds2
-        String treeFile1="", treeFile2="";
-        String tree1="", tree2="";
-        if(ric.isAnnot() && annot)
-            tree1 = ric.getWholeTree(cluster);
-        else
-            tree1 = ric.getWholeTree();
-        treeFile1 = treeFile1+"\ttree allDataSet"+whi+" = [&R] "+tree1+"\n"; //file = file+"\ttree allDataSet"+whi+" = [&R] "+ric.getWholeTree()+"\n";
-        treeFile1 = treeFile1+"\ttree ds"+whi+"_Clust"+cluster+" = [&R] "+ric.getClusterCode(cluster, annot)+"\n";
-
-        for(int i=0;i<matches.length; i++)
+        if(b == runB)
         {
-            treeFile2 = treeFile2+"\ttree ds"+(3-whi)+"_Clust"+matches[i]+" = [&R] "+ricO.getClusterCode(matches[i], annot)+"\n";
-        }
-        if(ricO.isAnnot() && annot)
-            tree2 = ricO.getWholeTree(matches);
-        else
-            tree2 = ricO.getWholeTree();
-        treeFile2 = treeFile2+"\ttree allDataSet"+(3-whi)+" = [&R] "+tree2+"\n"//file = file+"\ttree allDataSet"+(3-whi)+" = [&R] "+ricO.getWholeTree()+"\n"
-        +"end;\n";
-long stRIC1 = System.currentTimeMillis(); //for timing the efficiency of the function
 
-        //DO NOT NEED TO ADD MATCHES AFTER NAME AS SEQUENCES NAMES ARE THE SAME!!
+            String file = "";
 
-        //now search the existing list of sequences and replace those in clusters/with matches etc
-        //first search for those in the cluster in RIC1
-        String[] seqs = ric.getSeqsInCluster(cluster);
-        for(int i=0; i<seqs.length; i++)
-        {
-            String p ="Clust"+cluster+"_"+seqs[i];
-            String orig = p;
-            //get annot code so can display as tip labels the annots
-            String seqAnnot = "";
-            if(annot == true)
-                seqAnnot = ric.getTrimmedSeqAnnot(seqs[i]);
-            if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
-            if(ric.hasMatch(seqs[i]))
-            {
-                p = p+"[&!color=#FF0000"+seqAnnot+"]";  //if a match, colour red
-            }
+     long stAllSeq = System.currentTimeMillis(); //for timing the efficiency of the function
+     //there used to be code in here, hence the two timers
+     long loopArray = System.currentTimeMillis(); //for timing the efficiency of the function
+
+            //print each sequence only once - do not simply print all sequences from both
+            //data sets or there will be duplicates!!
+            //HOWEVER, sequences that have the same sequence name MAY NOT have the same FULL seq name
+            //because they may be in diff numbered clusters by chance!! (OR they could be!)
+            //Seq 1212 could be in Clust11 in data set 1 AND Clust11 in data set 2
+            //OR could be in Clust11 in data set 1 and Clust20 in data set 2!
+            //In first case, Clust11_1212 needs to go into taxtabels ONCE and be annotated ONCE
+            //In second case, Clust11_1212 and Clust20_1212 BOTH need to go into taxlabels and BOTh need to be annotated
+
+            //I got this idea to solve this from: http://www.theeggeadventure.com/wikimedia/index.php/Java_Unique_List
+            java.util.List ric1List = Arrays.asList(totNodes); //get list of all seqs in data set 1
+            java.util.List ric2List = Arrays.asList(ric2TotNodes); //get list of all seqs in data set 2
+            HashSet set = new HashSet(ric1List); //put into hashed set - will disregard duplicates!!
+            HashSet set2 = new HashSet(ric2List);
+            set.addAll(set2); //add all data set 2 seqs to data set 1 hashset
+
+            String totN = set.toString(); //now we can put to a string knowing duplicates are removed
+            totN = totN.substring(1,totN.length()-1); //get rid of [ and ] at begin and end
+            totN = totN.replaceAll(", ", "\n\t"); //replace commas with new lines and tabs
+            //because all the seqs were added in this one go, don't need to do separately for data set 1 and data set 2
+
+            //but only NOW add the file heading to the file because we know the length of the unique nodes....
+            file = "#NEXUS"
+            +"\nbegin taxa;"
+            +"\ndimensions ntax="+set.size()+";"
+            +"\n\ttaxlabels\n";
+            file = file + "\t"+totN+"\n";
+            totN = null;
+
+    long stTrees = System.currentTimeMillis(); //for timing the efficiency of the function
+            //now make a new string to hold the tree code
+            //put in the full tree ds1, cluster ds1, cluster(s) ds2, full tree ds2
+            String treeFile1="", treeFile2="";
+            String tree1="", tree2="";
+            if(ric.isAnnot() && annot)
+                tree1 = ric.getWholeTree(cluster);
             else
-                p = p+"[&!color=#0000FF"+seqAnnot+"]"; //if just in the cluster, colour blue
+                tree1 = ric.getWholeTree();
+            treeFile1 = treeFile1+"\ttree allDataSet"+whi+" = [&R] "+tree1+"\n"; //file = file+"\ttree allDataSet"+whi+" = [&R] "+ric.getWholeTree()+"\n";
+            treeFile1 = treeFile1+"\ttree ds"+whi+"_Clust"+cluster+" = [&R] "+ric.getClusterCode(cluster, annot)+"\n";
 
-            //file = file.replaceAll(orig, p);
-            file = file.replace(orig, p);
-        }
-
-long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the function
-        //now search for those in the matching clusters in RIC2
-        for(int i=0; i<matches.length; i++)//for each cluster that matches
-        {
-            seqs = ricO.getSeqsInCluster(matches[i]);
-            for(int j=0; j<seqs.length; j++)
+            for(int i=0;i<matches.length; i++)
             {
-                String p = "Clust"+matches[i]+"_"+seqs[j];
+                treeFile2 = treeFile2+"\ttree ds"+(3-whi)+"_Clust"+matches[i]+" = [&R] "+ricO.getClusterCode(matches[i], annot)+"\n";
+            }
+            if(ricO.isAnnot() && annot)
+                tree2 = ricO.getWholeTree(matches);
+            else
+                tree2 = ricO.getWholeTree();
+            treeFile2 = treeFile2+"\ttree allDataSet"+(3-whi)+" = [&R] "+tree2+"\n"//file = file+"\ttree allDataSet"+(3-whi)+" = [&R] "+ricO.getWholeTree()+"\n"
+            +"end;\n";
+    long stRIC1 = System.currentTimeMillis(); //for timing the efficiency of the function
+
+            //DO NOT NEED TO ADD MATCHES AFTER NAME AS SEQUENCES NAMES ARE THE SAME!!
+
+            //now search the existing list of sequences and replace those in clusters/with matches etc
+            //first search for those in the cluster in RIC1
+            String[] seqs = ric.getSeqsInCluster(cluster);
+            for(int i=0; i<seqs.length; i++)
+            {
+                String p ="Clust"+cluster+"_"+seqs[i];
                 String orig = p;
                 //get annot code so can display as tip labels the annots
                 String seqAnnot = "";
                 if(annot == true)
-                    seqAnnot = ricO.getTrimmedSeqAnnot(seqs[j]);
+                    seqAnnot = ric.getTrimmedSeqAnnot(seqs[i]);
                 if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
-                //see if has a match
-                String matClus = ricO.getMatchClus(seqs[j]);
-                if(matClus == null) //if no match
+                if(ric.hasMatch(seqs[i]))
                 {
-                    p = p + "[&!color=#0000FF"+seqAnnot+"]"; //color blue as part of cluster
+                    p = p+"[&!color=#FF0000"+seqAnnot+"]";  //if a match, colour red
                 }
-                else if(matClus.equals(cluster)) //if a match in the cluster in RIC1
-                {
-                    //should already be red from being coloured by RIC1 search above!
-                    //unless the cluster numbers have changed
-                    p = p + "[&!color=#FF0000"+seqAnnot+"]"; //color red as match
-                }
-                else //if a match with another sequence, not in RIC1 cluster
-                {
-                    p = p + "[&!color=#008000"+seqAnnot+"]"; //color green
-                    //and colour the match green too!
-                    String mat = ricO.getFullMatch(seqs[j]);
-                    String sA = "";
-                    if(annot==true)
-                        sA = ric.getTrimmedSeqAnnot(ricO.getMatch(seqs[j]));
-                    if(!sA.isEmpty()) sA = ","+sA;
-                    String rep = mat + "[&!color=#008000"+sA+"]";
-                    //file = file.replaceAll(mat, rep);
-                    file = file.replace(mat, rep);
-                    //if they have the same cluster number, this line above will append the colour to the one seq name
-                    //if they have different cluster numbers, the line below will append to the other seq name
-                }
-                //only replace if it has not already been annotated with something!!!!
-                //file = file.replaceAll(orig+"\n", p+"\n");
-                file = file.replace(orig+"\n", p+"\n");
+                else
+                    p = p+"[&!color=#0000FF"+seqAnnot+"]"; //if just in the cluster, colour blue
+
+                //file = file.replaceAll(orig, p);
+                file = file.replace(orig, p);
             }
-        }
 
-        file = file+"\t;\n"
-        +"end;\n"
-        +"begin trees;\n";
+    long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the function
+            //now search for those in the matching clusters in RIC2
+            for(int i=0; i<matches.length; i++)//for each cluster that matches
+            {
+                seqs = ricO.getSeqsInCluster(matches[i]);
+                for(int j=0; j<seqs.length; j++)
+                {
+                    String p = "Clust"+matches[i]+"_"+seqs[j];
+                    String orig = p;
+                    //get annot code so can display as tip labels the annots
+                    String seqAnnot = "";
+                    if(annot == true)
+                        seqAnnot = ricO.getTrimmedSeqAnnot(seqs[j]);
+                    if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
+                    //see if has a match
+                    String matClus = ricO.getMatchClus(seqs[j]);
+                    if(matClus == null) //if no match
+                    {
+                        p = p + "[&!color=#0000FF"+seqAnnot+"]"; //color blue as part of cluster
+                    }
+                    else if(matClus.equals(cluster)) //if a match in the cluster in RIC1
+                    {
+                        //should already be red from being coloured by RIC1 search above!
+                        //unless the cluster numbers have changed
+                        p = p + "[&!color=#FF0000"+seqAnnot+"]"; //color red as match
+                    }
+                    else //if a match with another sequence, not in RIC1 cluster
+                    {
+                        p = p + "[&!color=#008000"+seqAnnot+"]"; //color green
+                        //and colour the match green too!
+                        String mat = ricO.getFullMatch(seqs[j]);
+                        String sA = "";
+                        if(annot==true)
+                            sA = ric.getTrimmedSeqAnnot(ricO.getMatch(seqs[j]));
+                        if(!sA.isEmpty()) sA = ","+sA;
+                        String rep = mat + "[&!color=#008000"+sA+"]";
+                        //file = file.replaceAll(mat, rep);
+                        file = file.replace(mat, rep);
+                        //if they have the same cluster number, this line above will append the colour to the one seq name
+                        //if they have different cluster numbers, the line below will append to the other seq name
+                    }
+                    //only replace if it has not already been annotated with something!!!!
+                    //file = file.replaceAll(orig+"\n", p+"\n");
+                    file = file.replace(orig+"\n", p+"\n");
+                }
+            }
 
-        //now add the tree file holders to the file
-        file = file+treeFile1+treeFile2;
+            file = file+"\t;\n"
+            +"end;\n"
+            +"begin trees;\n";
 
-        file = file+"begin figtree;\n"
-	+"\tset tipLabels.colorAttribute=\"User Selection\";\n"
-	+"\tset tipLabels.displayAttribute=\"Names\";\n"
-	+"\tset tipLabels.fontName=\"Arial\";\n"
-	+"\tset tipLabels.fontSize=10;\n"
-	+"\tset tipLabels.fontStyle=0;\n"
-	+"\tset tipLabels.isShown=true;\n"
-	+"\tset tipLabels.significantDigits=4;\n"
-	+"\tset trees.order=true;\n"
-	+"\tset trees.orderType=\"increasing\";\n"
-	+"\tset trees.rooting=false;\n"
-	+"\tset trees.rootingType=\"User Selection\";\n"
-	+"\tset trees.transform=false;\n"
-	+"\tset trees.transformType=\"cladogram\";\n"
-        +"\tset branchLabels.fontName=\"Arial\";\n"
-	+"\tset branchLabels.fontSize=10;\n"
-	+"\tset scaleBar.fontSize=11.0;\n"
-        +"end;\n";
+            //now add the tree file holders to the file
+            file = file+treeFile1+treeFile2;
+
+            file = file+"begin figtree;\n"
+            +"\tset tipLabels.colorAttribute=\"User Selection\";\n"
+            +"\tset tipLabels.displayAttribute=\"Names\";\n"
+            +"\tset tipLabels.fontName=\"Arial\";\n"
+            +"\tset tipLabels.fontSize=10;\n"
+            +"\tset tipLabels.fontStyle=0;\n"
+            +"\tset tipLabels.isShown=true;\n"
+            +"\tset tipLabels.significantDigits=4;\n"
+            +"\tset trees.order=true;\n"
+            +"\tset trees.orderType=\"increasing\";\n"
+            +"\tset trees.rooting=false;\n"
+            +"\tset trees.rootingType=\"User Selection\";\n"
+            +"\tset trees.transform=false;\n"
+            +"\tset trees.transformType=\"cladogram\";\n"
+            +"\tset branchLabels.fontName=\"Arial\";\n"
+            +"\tset branchLabels.fontSize=10;\n"
+            +"\tset scaleBar.fontSize=11.0;\n"
+            +"end;\n";
 
 
-        printStringToFile(file, clustFile);
-  long en = System.currentTimeMillis(); //for timing the efficiency of the function
-        if(verbose) //for timing the efficiency of the function
-        {
-            System.out.println("Print " + cluster + ": \ntot: " + (en - st) + ""
-                + "  1: "+(stAllSeq-st)+"  2: "+ (stTrees-stAllSeq)
-                + "  3: "+(stRIC1-stTrees)+"  4: "+ (stRIC2-stRIC1)
-                + "  5: "+(en-stRIC2) + "  loopArray: "+(stTrees-loopArray));
+            printStringToFile(file, clustFile);
+      long en = System.currentTimeMillis(); //for timing the efficiency of the function
+            if(verbose) //for timing the efficiency of the function
+            {
+                System.out.println("Print " + cluster + ": \ntot: " + (en - st) + ""
+                    + "  1: "+(stAllSeq-st)+"  2: "+ (stTrees-stAllSeq)
+                    + "  3: "+(stRIC1-stTrees)+"  4: "+ (stRIC2-stRIC1)
+                    + "  5: "+(en-stRIC2) + "  loopArray: "+(stTrees-loopArray));
+            }
         }
     }
 
@@ -1311,7 +1319,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
      * Since there is no matching, does not have to be adjusted for matches based on the same seq names in both
      * data sets.
      */
-    public void printCluster(int whi, String cluster, boolean annot)
+    public void printCluster(int whi, String cluster, boolean annot, JButton b)
     {
   long st = System.currentTimeMillis(); //for timing the efficiency of the function
         ReadInClusters ric = ric1;
@@ -1334,7 +1342,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                 +"\n\ttaxlabels\n";
 
         //prints extended cluster info if requested by the user:
-        if(extendInfCB.isSelected())
+        if(extendInfCB.isSelected() || b == extendInfBPrint) //if tickbox selected OR button was pressed)
         {
             String info = cluster+","+ric.getNumSeqsInClus(cluster);
             //only try and print annot info if they put in annotations
@@ -1362,74 +1370,78 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         }
         //end of printing extended cluster info
 
-        //add all sequences from the tree to the file
-  long stSeqAdd = System.currentTimeMillis(); //for timing the efficiency of the function
-        String totN = Arrays.toString(totNodes);
-        totN = totN.substring(1,totN.length()-1);
-        totN = totN.replaceAll(", ", "\n\t");
-        file = file + "\t"+totN+"\n";
-        totN = null;
-
-        //now modify those that are in the cluster
-        String[] seqs = ric.getSeqsInCluster(cluster);
-        for(int i=0; i<seqs.length; i++)
+        if(b == runB)
         {
-            String p ="Clust"+cluster+"_"+seqs[i];
-            String orig = p;
-            //get annot code so can display as tip labels the annots
-            String seqAnnot = "";
-            if(annot == true)
-                seqAnnot = ric.getTrimmedSeqAnnot(seqs[i]);
-            if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
-            p = p+"[&!color=#0000FF"+seqAnnot+"]"; //make blue because just a cluster.. no match
-            //file = file.replaceAll(orig, p); //DON'T USE THIS, IF NAME HAS SPECIAL SYMBOLS WILL MESS UP GREP!!
-            file = file.replace(orig, p); //replace the sequence name with seqName + color ... but don't use
-        }
 
-        //get the tree code for the whole tree and the cluster
-    long treeAdd = System.currentTimeMillis(); //for timing the efficiency of the function
-        String tree = "";
-        if(ric.isAnnot() && annot)
-            tree = ric.getWholeTree(cluster);
-        else
-            tree = ric.getWholeTree();
+            //add all sequences from the tree to the file
+      long stSeqAdd = System.currentTimeMillis(); //for timing the efficiency of the function
+            String totN = Arrays.toString(totNodes);
+            totN = totN.substring(1,totN.length()-1);
+            totN = totN.replaceAll(", ", "\n\t");
+            file = file + "\t"+totN+"\n";
+            totN = null;
 
-        file = file+"\t;\n"
-        +"end;\n"
-        +"begin trees;\n"
-        +"\ttree cluster = [&R] " + ric.getClusterCode(cluster, annot)+"\n"
-        +"\ttree wholeTree = [&R] " +tree+"\n"
-        +"end;\n";
-        
-        //finish off the file
-  long stEndFile = System.currentTimeMillis(); //for timing the efficiency of the function
-        file = file+"begin figtree;\n"
-	+"\tset tipLabels.colorAttribute=\"User Selection\";\n"
-	+"\tset tipLabels.displayAttribute=\"Names\";\n"
-	+"\tset tipLabels.fontName=\"Arial\";\n"
-	+"\tset tipLabels.fontSize=10;\n"
-	+"\tset tipLabels.fontStyle=0;\n"
-	+"\tset tipLabels.isShown=true;\n"
-	+"\tset tipLabels.significantDigits=4;\n"
-	+"\tset trees.order=true;\n"
-	+"\tset trees.orderType=\"increasing\";\n"
-	+"\tset trees.rooting=false;\n"
-	+"\tset trees.rootingType=\"User Selection\";\n"
-	+"\tset trees.transform=false;\n"
-	+"\tset trees.transformType=\"cladogram\";\n"
-        +"\tset branchLabels.fontName=\"Arial\";\n"
-	+"\tset branchLabels.fontSize=10;\n"
-	+"\tset scaleBar.fontSize=11.0;\n"
-        +"end;\n";
+            //now modify those that are in the cluster
+            String[] seqs = ric.getSeqsInCluster(cluster);
+            for(int i=0; i<seqs.length; i++)
+            {
+                String p ="Clust"+cluster+"_"+seqs[i];
+                String orig = p;
+                //get annot code so can display as tip labels the annots
+                String seqAnnot = "";
+                if(annot == true)
+                    seqAnnot = ric.getTrimmedSeqAnnot(seqs[i]);
+                if(!seqAnnot.isEmpty()) seqAnnot = ","+seqAnnot;
+                p = p+"[&!color=#0000FF"+seqAnnot+"]"; //make blue because just a cluster.. no match
+                //file = file.replaceAll(orig, p); //DON'T USE THIS, IF NAME HAS SPECIAL SYMBOLS WILL MESS UP GREP!!
+                file = file.replace(orig, p); //replace the sequence name with seqName + color ... but don't use
+            }
 
-        printStringToFile(file, clustFile);
-   long en = System.currentTimeMillis(); //for timing the efficiency of the function
-        if(verbose) //for timing the efficiency of the function
-        {
-            System.out.println("Print " + cluster + ": \ntot: " + (en - st) + ""
-                + "  1: "+(stSeqAdd-st)+"  2: "+ (treeAdd-stSeqAdd)
-                + "  3: "+(stEndFile-treeAdd)+"  4: "+ (en-stEndFile)
-                + "  loopArray: "+(treeAdd-stSeqAdd));
+            //get the tree code for the whole tree and the cluster
+        long treeAdd = System.currentTimeMillis(); //for timing the efficiency of the function
+            String tree = "";
+            if(ric.isAnnot() && annot)
+                tree = ric.getWholeTree(cluster);
+            else
+                tree = ric.getWholeTree();
+
+            file = file+"\t;\n"
+            +"end;\n"
+            +"begin trees;\n"
+            +"\ttree cluster = [&R] " + ric.getClusterCode(cluster, annot)+"\n"
+            +"\ttree wholeTree = [&R] " +tree+"\n"
+            +"end;\n";
+
+            //finish off the file
+      long stEndFile = System.currentTimeMillis(); //for timing the efficiency of the function
+            file = file+"begin figtree;\n"
+            +"\tset tipLabels.colorAttribute=\"User Selection\";\n"
+            +"\tset tipLabels.displayAttribute=\"Names\";\n"
+            +"\tset tipLabels.fontName=\"Arial\";\n"
+            +"\tset tipLabels.fontSize=10;\n"
+            +"\tset tipLabels.fontStyle=0;\n"
+            +"\tset tipLabels.isShown=true;\n"
+            +"\tset tipLabels.significantDigits=4;\n"
+            +"\tset trees.order=true;\n"
+            +"\tset trees.orderType=\"increasing\";\n"
+            +"\tset trees.rooting=false;\n"
+            +"\tset trees.rootingType=\"User Selection\";\n"
+            +"\tset trees.transform=false;\n"
+            +"\tset trees.transformType=\"cladogram\";\n"
+            +"\tset branchLabels.fontName=\"Arial\";\n"
+            +"\tset branchLabels.fontSize=10;\n"
+            +"\tset scaleBar.fontSize=11.0;\n"
+            +"end;\n";
+
+            printStringToFile(file, clustFile);
+       long en = System.currentTimeMillis(); //for timing the efficiency of the function
+            if(verbose) //for timing the efficiency of the function
+            {
+                System.out.println("Print " + cluster + ": \ntot: " + (en - st) + ""
+                    + "  1: "+(stSeqAdd-st)+"  2: "+ (treeAdd-stSeqAdd)
+                    + "  3: "+(stEndFile-treeAdd)+"  4: "+ (en-stEndFile)
+                    + "  loopArray: "+(treeAdd-stSeqAdd));
+            }
         }
     }
 
@@ -1613,6 +1625,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         }
         prevB.setEnabled(enable);
         runB.setEnabled(enable);
+        extendInfBPrint.setEnabled(enable);
         validate();
     }
 
@@ -1781,7 +1794,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                     if(deleteFiles(writtenFiles.split("££")) == true) //files deleted properly.. continue
                     {
                         writtenFiles = "";
-                        outFile = outFile+"\n**Previously Written Files Were Deleted!**\n";
+                        outFile = outFile+"\r\n**Previously Written Files Were Deleted!**\r\n";
                     }
                     else //files did not delete properly... do not continue (deleteFiles function throws up its own warning)
                         choice = 2;
@@ -1889,7 +1902,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         {
             readFiles();
         }
-        else if(e.getSource() == runB || e.getSource() == prevB) //run button (print figtree files) or preview button pressed
+        else if(e.getSource() == runB || e.getSource() == prevB || e.getSource() == extendInfBPrint) //run button (print figtree files) or preview button pressed OR print CSV pressed
         {
             runAnalysis(e);
         }
@@ -2029,17 +2042,17 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
             //newDs1T.setText("test\\newick2a.nwk");
             newDs1T.setText("test\\2007CTree_clusterPicks.nwk");
             //newDs2T.setText("test\\newick1.nwk");
-            newDs2T.setText("test\\2010CTree_clusterPicks.nwk");
+            newDs2T.setText("test\\2007CTree_clusterPicks_clusDiff.nwk");
 
-            anotDs1T.setText("test\\annotData2007.csv");
-            anotDs1CB.setSelected(true);
-            anotDs2T.setText("test\\annotData2010_new.csv");
+  //          anotDs1T.setText("test\\annotData2007.csv");
+  //          anotDs1CB.setSelected(true);
+  //          anotDs2T.setText("test\\annotData2010_new.csv");
 
-            matFT.setText("test\\matches2.csv");
+           // matFT.setText("test\\matches.csv");
 
             //outFileT.setText("C:\\Users\\Emma\\Documents\\My Dropbox\\Personal\\Code\\ClustMatch");
             //outFileT.setText("C:\\Users\\Emma\\Documents\\My Dropbox\\Personal\\Code\\ClustMatch\\out");
-            outFileT.setText("C:\\Users\\Emma\\Documents\\My Dropbox\\Personal\\Code\\ClustMatch1.2");
+            outFileT.setText("C:\\Users\\Emma\\Documents\\My Dropbox\\Personal\\Code\\ClustMatch1.2.3\\out");
             
             /*
 //for testing matching sequence names in datasets
@@ -2099,19 +2112,19 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                 newDs2L.setForeground(new Color(238,238,238));
                 anotDs2CB.setForeground(new Color(238,238,238));
                 
+                //anotDs2CB.setIcon(new ImageIcon(getClass().getResource("invisBox.jpg")));
+                
                 // SJL 11 June 2013 - trying to make work in Eclipse
                 //anotDs2CB.setIcon(new ImageIcon(getClass().getResource("invisBox.jpg")));
                 anotDs2CB.setIcon(new ImageIcon("src\\invisBox.jpg"));
                 
                 anotDs2CB.setFocusable(false);
-                
-                
                 sameMatCB.setForeground(new Color(238,238,238));
                 
                 // SJL 11 June 2013 - trying to make work in Eclipse
                 //sameMatCB.setIcon(new ImageIcon(getClass().getResource("invisBox.jpg")));
                 sameMatCB.setIcon(new ImageIcon("src\\invisBox.jpg"));
-                		
+                
                 sameMatCB.setFocusable(false);
 
                 newDs2T.setEditable(false);
@@ -2154,7 +2167,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                 //matHelpB.setSelectedIcon(new ImageIcon(getClass().getResource("pressIco.jpg")));
                 matHelpB.setPressedIcon(new ImageIcon("src/pressIco.jpg"));
                 matHelpB.setSelectedIcon(new ImageIcon("src/pressIco.jpg"));
-
+                
                 optPane.setBorder(
                     BorderFactory.createCompoundBorder(
                         BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1),"1 Data Set", TitledBorder.LEADING, TitledBorder.TOP, new Font("Arial Bold", Font.PLAIN, 12), Color.GRAY),
@@ -2365,34 +2378,48 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
     //just makes the first part of the output file with generic data set info
     public void makeOutputFile1()
     {
-        outFile = outFile+ "Input files used:\n";
+        outFile = outFile+ "Input files used:\r\n";
         if(file2RB.isSelected())
-             outFile = outFile+"Data Set 1:\n";
-        outFile = outFile+"\tNewick file: "+newDs1T.getText().trim()+"\n";
+             outFile = outFile+"Data Set 1:\r\n";
+        outFile = outFile+"\tNewick file: "+newDs1T.getText().trim()+"\r\n";
         if(anotDs1CB.isSelected())
-            outFile = outFile+"\tAnnotation file: "+anotDs1T.getText().trim()+"\n";
+            outFile = outFile+"\tAnnotation file: "+anotDs1T.getText().trim()+"\r\n";
 
         //add data files for data set 2
-        outFile = outFile+"Data Set 2:\n";
-        outFile = outFile+"\tNewick file: "+newDs2T.getText().trim()+"\n";
+        outFile = outFile+"Data Set 2:\r\n";
+        outFile = outFile+"\tNewick file: "+newDs2T.getText().trim()+"\r\n";
         if(anotDs2CB.isSelected())
-            outFile = outFile+"\tAnnotation file: "+anotDs2T.getText().trim()+"\n";
+            outFile = outFile+"\tAnnotation file: "+anotDs2T.getText().trim()+"\r\n";
 
         if(file2RB.isSelected())
-            outFile = outFile+"\nData set 1 had ";
+            outFile = outFile+"\r\nData set 1 has ";
         else
-            outFile = outFile+"\nThe data set had ";
+            outFile = outFile+"\r\nThe data set has ";
         double perc = roundTwoDecimals(((double)ric1.getNodesInClusters()/(double)ric1.getTotalNodes().length)*100);
         outFile = outFile+ric1.getTotalNodes().length+" sequences and "+ric1.getNumClusters()+" clusters (containing "+ric1.getNodesInClusters()+" sequences ("+perc+"%))";
         
         //add data 2 file info and match info
         if(file2RB.isSelected())
         {
-            outFile = outFile + "\nData set 2 had ";
+            outFile = outFile + "\r\nData set 2 has ";
             perc = roundTwoDecimals(((double)ric2.getNodesInClusters()/(double)ric2.getTotalNodes().length)*100);
             outFile = outFile+ric2.getTotalNodes().length+" sequences and "+ric2.getNumClusters()+" clusters (containing "+ric2.getNodesInClusters()+" sequences ("+perc+"%))";
+
+            /* Uncomment this bit if you want to test that the two datasets are identical (all seq names same in both)
+            String[] totNodes = ric1.getSeqNames();  //returns string array of all nodes in RIC, without prefix (7122)
+            String[] ric2TotNodes = ric2.getSeqNames();
+
+            java.util.List ric1List = Arrays.asList(totNodes); //get list of all seqs in data set 1
+            java.util.List ric2List = Arrays.asList(ric2TotNodes); //get list of all seqs in data set 2
+            HashSet set = new HashSet(ric1List); //put into hashed set - will disregard duplicates!!
+            HashSet set2 = new HashSet(ric2List);
+            if(set.equals(set2)) //if all sequence names within are identical, we can try to do the test...
+            {
+                outFile = outFile+"\r\n\r\nData set 1 and 2 have identical sequences. An adjusted Rand Index is possible.";
+            }
+            */
         }
-        outFile = outFile+"\n\n";
+        outFile = outFile+"\r\n\r\n";
 
         if(verbose) System.out.print(outFile);
     }
@@ -2413,17 +2440,22 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         double perc = roundTwoDecimals(((double)numClus/(double)ric1.getNumClusters())*100);
 
         if(b == prevB)
-            outFile = outFile+"\n*Preview Analysis* (No files written):\n";
-        else //if run button
+            outFile = outFile+"\r\n*Preview Analysis* (No files written):\r\n";
+        else if(b == runB){ //if run button
+        
+            outFile = outFile+"\r\n*FigTree Files Written*:\r\n";
+            outFile = outFile+"Output Location: "+outFileT.getText().trim()+"\r\n";
+        }
+        else //if print CSV Button
         {
-            outFile = outFile+"\n*FigTree Files Written*:\n";
-            outFile = outFile+"Output Location: "+outFileT.getText().trim()+"\n";
+            outFile = outFile+"\r\n*CSV Cluster File Written*:\r\n";
+            outFile = outFile+"Output Location: "+outFileT.getText().trim()+"\r\n";
         }
 
         String hk="", pj="", hj=" of the total clusters";
         if(file2RB.isSelected())
             hk = " that match between data sets"; pj = " in data set 1"; hj="";
-        outFile = outFile+numClus+" clusters"+pj+" ("+perc+"%) have more than "+num+" sequences"+hk+".\n";
+        outFile = outFile+numClus+" clusters"+pj+" ("+perc+"%) have more than "+num+" sequences"+hk+".\r\n";
         if(percCB.isSelected())
         {
             int prev = number;
@@ -2431,14 +2463,14 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
             outFile = outFile + "Of these, " + prev + " clusters ("+perc+"%"+hj+") have at least " + percT.getText().trim() + "% "
                     +"sequences with a "+fieldC.getSelectedItem()+" value of "+valueC.getSelectedItem();
             if(file2RB.isSelected() && dsC.getSelectedIndex()!=2)
-                outFile = outFile + " in "+dsC.getSelectedItem()+"\n";
+                outFile = outFile + " in "+dsC.getSelectedItem()+"\r\n";
             else if(file2RB.isSelected() && dsC.getSelectedIndex()==2)
-                outFile = outFile + " in both data sets\n";
+                outFile = outFile + " in both data sets\r\n";
             else
-                outFile = outFile + "\n";
+                outFile = outFile + "\r\n";
         }
         if(incCB.isSelected())
-            outFile = outFile+"\t(Sequences without a value for "+fieldC.getSelectedItem()+" were not included.)\n";
+            outFile = outFile+"\t(Sequences without a value for "+fieldC.getSelectedItem()+" were not included.)\r\n";
 
         if(percCB.isSelected())
         {
@@ -2447,7 +2479,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                 if(file1RB.isSelected())
                 {
                     int numSeqs = ric1.getNumSeqsInClus(clus);
-                    outFile = outFile+"\tOf the "+numSeqs+" sequences in these clusters:\n";
+                    outFile = outFile+"\tOf the "+numSeqs+" sequences in these clusters:\r\n";
                     String values = anotOps.get(fieldC.getSelectedItem());
                     String[] vals = values.split(",");
                     int[] tots = ric1.getClusAnnot(clus, (String)fieldC.getSelectedItem(), vals);
@@ -2455,16 +2487,16 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                     for(int i=0; i<vals.length; i++)
                     {
                         perc = roundTwoDecimals(((double)tots[i]/(double)numSeqs)*100);
-                        outFile = outFile+"\t\t- "+tots[i]+" ("+perc+"%) are "+vals[i]+"\n";
+                        outFile = outFile+"\t\t- "+tots[i]+" ("+perc+"%) are "+vals[i]+"\r\n";
                         totVal = totVal + tots[i];
                     }
                     perc = roundTwoDecimals(((double)(numSeqs-totVal)/(double)numSeqs)*100);
-                    outFile = outFile+"\t\t- "+(numSeqs-totVal)+" ("+perc+"%) have no "+fieldC.getSelectedItem()+" value\n";
+                    outFile = outFile+"\t\t- "+(numSeqs-totVal)+" ("+perc+"%) have no "+fieldC.getSelectedItem()+" value\r\n";
                 }
                 else if(file2RB.isSelected())
                 {
                     int numSeqs = ric1.getNumSeqsInClus(clus);
-                    outFile = outFile+"\tOf the "+numSeqs+" sequences in the clusters returned from data set 1:\n";
+                    outFile = outFile+"\tOf the "+numSeqs+" sequences in the clusters returned from data set 1:\r\n";
                     String values = anotOps.get(fieldC.getSelectedItem());
                     String[] vals = values.split("£&");//(",");
                     int[] tots = ric1.getClusAnnot(clus, (String)fieldC.getSelectedItem(), vals);
@@ -2472,11 +2504,11 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                     for(int i=0; i<vals.length; i++)
                     {
                         perc = roundTwoDecimals(((double)tots[i]/(double)numSeqs)*100);
-                        outFile = outFile+"\t\t- "+tots[i]+" ("+perc+"%) are "+vals[i]+"\n";
+                        outFile = outFile+"\t\t- "+tots[i]+" ("+perc+"%) are "+vals[i]+"\r\n";
                         totVal = totVal + tots[i];
                     }
                     perc = roundTwoDecimals(((double)(numSeqs-totVal)/(double)numSeqs)*100);
-                    outFile = outFile+"\t\t- "+(numSeqs-totVal)+" ("+perc+"%) have no "+fieldC.getSelectedItem()+" value\n";
+                    outFile = outFile+"\t\t- "+(numSeqs-totVal)+" ("+perc+"%) have no "+fieldC.getSelectedItem()+" value\r\n";
 
                     //for data set 2
                     String matches="";
@@ -2492,17 +2524,17 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
 
                     String[] mats = matches.split(",");
                     numSeqs = ric2.getNumSeqsInClus(mats);
-                    outFile = outFile+"\tOf the "+numSeqs+" sequences in the matching clusters returned from data set 2:\n";
+                    outFile = outFile+"\tOf the "+numSeqs+" sequences in the matching clusters returned from data set 2:\r\n";
                     tots = ric2.getClusAnnot(mats, (String)fieldC.getSelectedItem(), vals);
                     totVal = 0;
                     for(int i=0; i<vals.length; i++)
                     {
                         perc = roundTwoDecimals(((double)tots[i]/(double)numSeqs)*100);
-                        outFile = outFile+"\t\t- "+tots[i]+" ("+perc+"%) are "+vals[i]+"\n";
+                        outFile = outFile+"\t\t- "+tots[i]+" ("+perc+"%) are "+vals[i]+"\r\n";
                         totVal = totVal + tots[i];
                     }
                     perc = roundTwoDecimals(((double)(numSeqs-totVal)/(double)numSeqs)*100);
-                    outFile = outFile+"\t\t- "+(numSeqs-totVal)+" ("+perc+"%) have no "+fieldC.getSelectedItem()+" value\n";
+                    outFile = outFile+"\t\t- "+(numSeqs-totVal)+" ("+perc+"%) have no "+fieldC.getSelectedItem()+" value\r\n";
                 }
             }
         }
@@ -2652,7 +2684,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                     task.cancel(true);
                 else if(evt.getSource() == task2)
                     task2.cancel(true);
-                outFile = outFile + "***RUN WAS CANCELLED BEFORE ALL FILES WERE WRITTEN!!!***\n";
+                outFile = outFile + "***RUN WAS CANCELLED BEFORE ALL FILES WERE WRITTEN!!!***\r\n";
                 printStringToFile(outFile, logFile);
             } 
         }
@@ -2723,17 +2755,19 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         int whi =0;
         boolean annot;
         boolean wasAnotFCBEnab;
+        JButton b;
 
         public Task()
         {
 
         }
 
-        public Task(String[] clus1, int whi1, boolean annot1)
+        public Task(String[] clus1, int whi1, boolean annot1, JButton bb)
         {
             clus = clus1;
             whi = whi1;
             annot = annot1;
+            b = bb;
         }
 
         public Void doInBackground()
@@ -2756,9 +2790,9 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                 pm.setNote(message);
 
                 if(useMatches == true)
-                    printClusterMatchSame(whi, clus[i], annot);
+                    printClusterMatchSame(whi, clus[i], annot, b);
                 else
-                    printClusterMatch(whi, clus[i], annot);
+                    printClusterMatch(whi, clus[i], annot, b);
 
                 double upd = ((i+1)*interv) ;
                 //System.out.println("current percent is: "+upd);
@@ -2776,7 +2810,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
             extendInfCB.setEnabled(true);
             anotFCB.setEnabled(wasAnotFCBEnab);
             //prints extended cluster info if requested by the user:
-            if(extendInfCB.isSelected())
+            if(extendInfCB.isSelected() || b == extendInfBPrint) //if tickbox selected OR button was pressed)
             {
                 printStringToFile(clustInfo, "clustInfo_"+numWrites+"_"+timeN+".csv");
                 addFileToList("clustInfo_"+numWrites+"_"+timeN+".csv");
@@ -2802,12 +2836,14 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
         int whi =0;
         boolean annot;
         boolean wasAnotFCBEnab;
+        JButton b;
 
-        public Task2(String[] clus1, int whi1, boolean annot1)
+        public Task2(String[] clus1, int whi1, boolean annot1, JButton bb)
         {
             clus = clus1;
             whi = whi1;
             annot = annot1;
+            b = bb;
         }
 
         public Void doInBackground()
@@ -2829,7 +2865,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
                         String.format("Writing file %d.\n", i+1);
                 pm.setNote(message);
 
-                printCluster(whi, clus[i], annot);
+                printCluster(whi, clus[i], annot, b);
 
                 double upd = ((i+1)*interv) ;
                 //System.out.println("current percent is: "+upd);
@@ -2847,7 +2883,7 @@ long stRIC2 = System.currentTimeMillis(); //for timing the efficiency of the fun
             extendInfCB.setEnabled(true);
             anotFCB.setEnabled(wasAnotFCBEnab);
             //prints extended cluster info if requested by the user:
-            if(extendInfCB.isSelected())
+            if(extendInfCB.isSelected() || b == extendInfBPrint) //if tickbox selected OR button was pressed)
             {
                 printStringToFile(clustInfo, "clustInfo_"+numWrites+"_"+timeN+".csv");
                 addFileToList("clustInfo_"+numWrites+"_"+timeN+".csv");
