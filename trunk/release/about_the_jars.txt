@@ -7,13 +7,18 @@ About these jars
 Cluster Picker jars
 -------------------
 
-ClusterPicker_command.jar	built on 04/09/2013 14:05 by Samantha Lycett
+ClusterPicker_command.jar	built on 16/09/2013 10:38 by Samantha Lycett
 * Command line operation only:	e.g. java -jar ClusterPicker_command.jar
 * single line operation:	e.g. java -jar ClusterPicker_command.jar sequencesFileName.fas treeFileName.nwk 0.9 0.9 0.045 10
+
++ option to change the way genetic distance is calculated included: choices = gap (default), valid, abs, ambiguity
++ single line operation:	e.g. java -jar ClusterPicker_command.jar sequencesFileName.fas treeFileName.nwk 0.9 0.9 0.045 10 gap
+
 
 
 ClusterPickerGUI.jar		built on 04/09/2013 14:32 by Samantha Lycett
 * Cluster Picker GUI application
+- option to change the way genetic distance is calculated is NOT included; default setting = gap (unchanged from earlier versions)
 
 
 -------------------
