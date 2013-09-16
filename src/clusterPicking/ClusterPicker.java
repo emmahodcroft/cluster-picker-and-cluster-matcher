@@ -44,6 +44,7 @@ import java.io.*;
  * @version 4  July  2012 - added numMissingSeqs and numMissingTips for use with ClusterPickerGUI
  * @version 4  July  2012 - added numberOfClusters and numberOfLargeClusters for use with ClusterPickerGUI
  * @version 20 July  2013 - corrections for command line operation from a single line
+ * @version 12 Sept  2013 - added options for processing with ambiguities
  */
 public class ClusterPicker {
 	
@@ -769,7 +770,7 @@ public class ClusterPicker {
 		double supportThres					= 0.9;
 		double geneticThres					= 4.5/100;
 		int 	largeClusterThres			= 10;
-		BasicSequence.differenceType 		= "gap";
+		BasicSequence.differenceType 		= "gap";			// "ambiguity";	//"valid"; // "abs";
 		
 		// default settings
 		String path				= "C://Users//Samantha Lycett//Documents//Manon//CPT_Write-up//tests//";
@@ -844,8 +845,8 @@ public class ClusterPicker {
 		
 		
 		// default settings
-		String sequencesName 	= "C://Users//Samantha Lycett//Documents//Emma//C_outgroup_refSeq.fas";		//A_outgroup_refSeq.fas";
-		String treeName 		= "C://Users//Samantha Lycett//Documents//Emma//CRefFT5.11.newick";			//ARefFT5.9.newick";
+		String sequencesName 	= "C://Users//Samantha Lycett//Documents//C_outgroup_refSeq.fas";		//A_outgroup_refSeq.fas";
+		String treeName 		= "C://Users//Samantha Lycett//Documents//CRefFT5.11.newick";			//ARefFT5.9.newick";
 		
 		double initialThres 	= 0.9;
 		double supportThres		= 0.9;
@@ -853,8 +854,8 @@ public class ClusterPicker {
 		int	   largeClusterThres = 10;
 		
 		//BasicSequence.useAbs 	= false;
-		BasicSequence.differenceType 		= "gap";														// this means calculate the genetic distances between sites which are not gaps
-		
+		//BasicSequence.differenceType 		= "gap";														// this means calculate the genetic distances between sites which are not gaps
+		BasicSequence.setDifferenceType("gap");
 		
 		//////////////////////////////////////////////////////////////////////////////////
 		// enter parameters from keyboard input if not in args
@@ -885,6 +886,7 @@ public class ClusterPicker {
 				if (largeClusterThres > 0) {
 					System.out.println("Output cluster membership lists for clusters with >= "+largeClusterThres+" members");
 				}
+				System.out.println("Sequence difference type =\t"+BasicSequence.differenceType);
 				
 			} else {
 				try {
@@ -920,6 +922,11 @@ public class ClusterPicker {
 				} catch (NumberFormatException e) {
 					System.out.println("Sorry cant process "+args[5]+" will use default = "+largeClusterThres);
 				}
+			}
+			
+			if (args.length >= 7) {
+				String diffType = args[6];
+				BasicSequence.setDifferenceType(diffType);
 			}
 			
 		} else {
@@ -967,6 +974,17 @@ public class ClusterPicker {
 				} catch (NumberFormatException e) {
 					System.out.println("Sorry cant process "+ans+" will use default = "+largeClusterThres);
 				}
+			}
+			
+			System.out.println("Please enter scoring type for genetic distance");
+			System.out.println("abs      \t= count absolute character differences");
+			System.out.println("gap      \t= disregard sites with -, ~, or n");
+			System.out.println("valid    \t= only count differences for sites with nucleotides: a, c, t, g in both sequences");
+			System.out.println("ambiguity\t= disregard sites with -, ~, or n and do not count ambiguities as differences (e.g. a vs r is not a difference)");
+			System.out.println("To use default = "+BasicSequence.differenceType+" enter y or enter new value from list above");
+			ans = keyboard.nextLine().trim().toLowerCase();
+			if (!ans.startsWith("y")) {
+				BasicSequence.setDifferenceType(ans);
 			}
 		}
 		
@@ -1041,12 +1059,18 @@ public class ClusterPicker {
 							System.out.println("Sorry cant process "+ans+" will use default = "+supportThres);
 						}
 						
-						System.out.println("To output all cluster names for clusters of size >= X enter X, or enter 0 to output nothing");
+						System.out.println("To output all cluster names for clusters of size >= X enter X, or enter 0 to output nothing:");
 						ans = keyboard.nextLine().trim();
 						try {
 							largeClusterThres = Integer.parseInt(ans);
 						} catch (NumberFormatException e) {
 							System.out.println("Sorry cant process "+ans+" will use default = "+largeClusterThres);
+						}
+						
+						System.out.println("Please enter scoring type for genetic distance, or d to use the current default ("+BasicSequence.differenceType+"):");
+						ans = keyboard.nextLine().trim().toLowerCase();
+						if (!ans.startsWith("d") && !ans.startsWith("y")) {
+							BasicSequence.setDifferenceType(ans);
 						}
 						
 					}
