@@ -70,6 +70,9 @@ MCC_to_NWK <- function( fname ) {
 # EXAMPLE USE OF FUNCTION
 ###############################################################
 
-mccName	<- "seg4_h3n2_ds2_beast_mcc.tre"
+mccName	<- "h3n2_1027_beast_mcc.tre"
 MCC_to_NWK(mccName)
+
+
+
 
