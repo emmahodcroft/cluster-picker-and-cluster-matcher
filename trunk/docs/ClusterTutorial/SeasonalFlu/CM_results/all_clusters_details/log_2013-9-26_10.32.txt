@@ -1,0 +1,18 @@
+**Cluster Matcher**
+-------------------
+Created 2012 by Emma Hodcroft
+Leigh Brown Group, Edinburgh University
+=======================================
+
+Input files used:
+	Newick file: C:\Users\Samantha Lycett\Documents\manuscripts\cluster_picker\referee_response\to_release\seasonal_flu\CP_results_70_70_002_10\h3n2_1027_beast_mcc.tre.posterior_clusterPicks.nwk
+	Annotation file: C:\Users\Samantha Lycett\Documents\manuscripts\cluster_picker\referee_response\to_release\seasonal_flu\h3n2_1027_traits.csv
+Data Set 2:
+	Newick file: 
+
+The data set has 1027 sequences and 93 clusters (containing 782 sequences (76.14%))
+
+
+*CSV Cluster File Written*:
+Output Location: C:\Users\Samantha Lycett\Documents\manuscripts\cluster_picker\referee_response\to_release\seasonal_flu\CM_results
+93 clusters in data set 1 (100.0%) have more than 0 sequences.

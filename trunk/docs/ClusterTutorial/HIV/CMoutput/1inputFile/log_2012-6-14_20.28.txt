@@ -1,0 +1,32 @@
+**Cluster Matcher**
+-------------------
+Created 2011 by Emma Hodcroft
+Leigh Brown Group, Edinburgh University
+=======================================
+
+Input files used:
+	Newick file: C:\MyDocuments\Clusters\ClusterTutorial\CPoutput\EU1866\EU1866_clusterPicks.nwk
+	Annotation file: C:\MyDocuments\Clusters\ClusterTutorial\TestDataset_3031_epiData.csv
+Data Set 2:
+	Newick file: 
+
+The data set had 1866 sequences and 71 clusters (containing 171 sequences (9.16%))
+
+
+*Preview Analysis* (No files written):
+5 clusters in data set 1 (7.04%) have more than 3 sequences.
+
+*FigTree Files Written*:
+Output Location: C:\MyDocuments\Clusters\ClusterTutorial\CMoutput\1inputFile
+5 clusters in data set 1 (7.04%) have more than 3 sequences.
+Of these, 4 clusters (5.63%) have at least 1% sequences with a Country value of UNITED KINGDOM
+	Of the 22 sequences in these clusters:
+		- 0 (0.0%) are SPAIN
+		- 0 (0.0%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 20 (90.91%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 2 (9.09%) are ITALY
+		- 0 (0.0%) are CZECH REPUBLIC
+		- 0 (0.0%) have no Country value
