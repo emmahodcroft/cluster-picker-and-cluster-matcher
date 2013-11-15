@@ -125,6 +125,9 @@ public class SeqNode {
     {
         String coS = longID+"[&";
         String co = "";
+        
+        if(annotFields==null)
+        	return co;
         for(int i=0;i<annotFields.length;i++)
         {
             if(!annotValues[i].isEmpty())
@@ -149,6 +152,8 @@ public class SeqNode {
     public String getTrimAnnotCode()
     {
         String co = "";
+        if(annotFields==null)
+        	return co;
         for(int i=0;i<annotFields.length;i++)
         {
             if(!annotValues[i].isEmpty())
