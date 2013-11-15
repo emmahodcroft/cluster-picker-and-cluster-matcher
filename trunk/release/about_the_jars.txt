@@ -25,7 +25,7 @@ ClusterPickerGUI.jar		built on 04/09/2013 14:32 by Samantha Lycett
 Cluster Matcher jar
 -------------------
 
-ClustMatch1.2.3.jar		built on 09/09/2013 10:44 by Samantha Lycett from Eclipse
+ClustMatch1.2.4.jar		built on 15/11/2013 14:37 by Emma Hodcroft from Eclipse
 * Cluster Matcher GUI application
 
 ---------------------------------------------------------
