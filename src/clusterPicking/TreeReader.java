@@ -27,6 +27,7 @@ import java.util.*;
  * @created 21 Sept 2011
  * @version 21 Sept 2011
  * @version 3  Oct  2011 - modified readNextTree and readTree to keep reading in lines from file until ;
+ * @version 15 Sept 2015 - ebh
  */
 public class TreeReader {
 
@@ -117,7 +118,11 @@ public class TreeReader {
 			//System.out.println(trLine);
 			
 			tr		= new Tree();
-			tr.readTree(trLine);
+			try {
+				tr.readTree(trLine); 
+			} catch (UnsupportedOperationException e){
+				throw e;
+			}
 			
 			inFile.close();
 			
