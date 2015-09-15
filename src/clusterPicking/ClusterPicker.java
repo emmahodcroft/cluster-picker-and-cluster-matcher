@@ -45,6 +45,7 @@ import java.io.*;
  * @version 4  July  2012 - added numberOfClusters and numberOfLargeClusters for use with ClusterPickerGUI
  * @version 20 July  2013 - corrections for command line operation from a single line
  * @version 12 Sept  2013 - added options for processing with ambiguities
+ * @version 14 Sept  2015 - Detects and throws error for polytomies, handles different styles of rooting, can handle missing branch length and BS info (ebh)
  */
 public class ClusterPicker {
 	
@@ -52,6 +53,7 @@ public class ClusterPicker {
 	// ClusterPicker instance variables
 
 	boolean verbose 		= true;
+	boolean verbose2 		= false; 					//ebh - set to true to have every cluster investigated printed out
 	boolean storePairwise 	= false;					// set this to true if you have a small dataset
 														// it will store any calculated pairwise distance and re-use the value if needed rather than calculate from scratch each time
 	
@@ -181,7 +183,13 @@ public class ClusterPicker {
 		if (verbose) System.out.print("Reading tree from "+treeFileName+" ... ");
 		
 		TreeReader inTree 	= new TreeReader();
-		theTree 			= inTree.readTree(this.treeFileName);
+		try {
+			theTree 			= inTree.readTree(this.treeFileName);
+		} catch(UnsupportedOperationException e){
+			System.out.println(e.getMessage());
+			System.out.println("");
+			throw e;
+		}
 		
 		if (verbose) {
 			System.out.println("Read tree with "+theTree.tipNames().size()+" tips");
@@ -404,12 +412,13 @@ public class ClusterPicker {
 	 * use writeResults after this has been called.
 	 */
 	public void processData() {
-		
+
 		// do first cut on subtrees separately so that are not calculating all pairwise distances		
 		List<Tree> subTrees = theTree.subTrees_with_support(initialSupportThres);
 		if (verbose) System.out.println("Found "+subTrees.size()+" initial subtrees within support = "+initialSupportThres);
 		
 		if (verbose) System.out.println("Investigating initial subtrees for support = "+supportThres+" and diversity <= "+geneticThres+" genetic distance");
+		System.out.println("Working.... please wait... This may take some minutes on large trees.\n");
 		
 		goodTrees 								= new ArrayList<Tree>();
 		clusterList							 	= new ArrayList<List<BasicSequence>>();
@@ -417,7 +426,7 @@ public class ClusterPicker {
 		for (Tree t : subTrees) {	
 			calcMaxGeneticDistance_forSubTree(t);
 			Node rootNode = t.getRoot();
-			if (verbose) System.out.println("Original Subtree:"+rootNode.getName()+" has support = "+rootNode.getSupport()+", genetic distance = "+(Double)rootNode.getTrait()+", and number of tips = "+t.tipNames().size());
+			if (verbose2) System.out.println("Original Subtree:"+rootNode.getName()+" has support = "+rootNode.getSupport()+", genetic distance = "+(Double)rootNode.getTrait()+", and number of tips = "+t.tipNames().size());
 			
 			
 			List<Node> toProcess = new ArrayList<Node>();
@@ -432,7 +441,7 @@ public class ClusterPicker {
 					goodTrees.add( st );
 					clusterList.add( getTipSequences(st) );
 					
-					if (verbose) System.out.println("Subtree:"+n.getName()+" has support = "+n.getSupport()+", genetic distance = "+(Double)n.getTrait()+", and number of tips = "+st.tipNames().size());
+					if (verbose2) System.out.println("Subtree:"+n.getName()+" has support = "+n.getSupport()+", genetic distance = "+(Double)n.getTrait()+", and number of tips = "+st.tipNames().size());
 					
 				} else {
 					if (!n.isTip()) {
@@ -1087,7 +1096,7 @@ public class ClusterPicker {
 	public static void main(String args[]) {
 		System.out.println("** ClusterPicker **");
 		System.out.println("");
-		System.out.println("ClusterPicker Copyright (C) 2013 Samantha Lycett");
+		System.out.println("ClusterPicker Copyright (C) 2015 S Lycett");
 		System.out.println("This program comes with ABSOLUTELY NO WARRANTY");
 		System.out.println("This is free software, and you are welcome to redistribute it under certain conditions");
 		System.out.println("See GNU GPLv3 for details http://www.gnu.org/licenses/gpl-3.0.txt");
