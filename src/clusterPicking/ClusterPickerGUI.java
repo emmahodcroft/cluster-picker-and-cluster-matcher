@@ -1,14 +1,15 @@
 package clusterPicking;
 
-
 import java.awt.*;
 import java.awt.event.*;
 //import java.awt.image.*;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 //import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+//import javax.swing.filechooser.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -46,6 +47,8 @@ import java.beans.PropertyChangeEvent;
  * @version 23 July 2012 - genetic distance threshold should set correctly now
  * @version 10 June 2013 - added license details and URL etc to about box
  * @version 4  Sept 2013 - rebuilt with new ReadFasta
+ * @version 14 Sept  2015 - Detects and throws error for polytomies, handles different styles of rooting, can handle missing branch length and BS info (ebh)
+ *  also fixed message updating while running, and now displays little spinning line
  */
 public class ClusterPickerGUI {
 	
@@ -61,7 +64,7 @@ public class ClusterPickerGUI {
 
 	/*
 	Automated Analysis of Phylogenetic Clusters
-	Manon Ragonnet-Cronin1,*, Emma Hodcroft1, Stéphane Hué2, Esther Fearnhill3, Valerie Delpech4, Andrew J. Leigh Brown1 and Samantha Lycett1on behalf of the UK HIV Drug Resistance Database
+	Manon Ragonnet-Cronin1,*, Emma Hodcroft1, StÃ©phane HuÃ©2, Esther Fearnhill3, Valerie Delpech4, Andrew J. Leigh Brown1 and Samantha Lycett1on behalf of the UK HIV Drug Resistance Database
 	*/
 
 	
@@ -85,6 +88,8 @@ public class ClusterPickerGUI {
 	protected JButton			  missTipsShow;
 	protected JFormattedTextField numClusters;
 	protected JFormattedTextField numLargeClusters;
+	
+	protected JButton GOButton 			= new JButton("GO");
 	
 	protected Dimension 		  labelBoxSize 	= new Dimension(175, 0);
 	protected Dimension			  paramBoxSize 	= new Dimension(50, 0);
@@ -276,7 +281,7 @@ public class ClusterPickerGUI {
 		////////////////////////////////////////////////////////////////////////////////
 		// GO Button
 		
-		JButton GOButton 			= new JButton("GO");
+//		JButton GOButton 			= new JButton("GO");  //ebh - make global variable
 		ActionListener GOListener 	= new GOActionListener();
 		GOButton.addActionListener(GOListener);
 		contentPane.add(GOButton, BorderLayout.SOUTH);
@@ -679,7 +684,12 @@ public class ClusterPickerGUI {
 			messages.append("Please select a fasta sequence file first\n");
 		} else {
 			if (treeFile != null) {
-				cp.readTree(treeFile.getAbsolutePath());
+				try {
+					cp.readTree(treeFile.getAbsolutePath());
+				} catch(UnsupportedOperationException e){
+					messages.setText(e.getMessage());
+					GOButton.setEnabled(false);
+				}
 				numTips.setValue(cp.theTree.tipNames().size());
 				numClusters.setValue(null);
 				numLargeClusters.setValue(null);
@@ -739,8 +749,11 @@ public class ClusterPickerGUI {
 		double startTime = System.currentTimeMillis();
 		
 		messages.setText("-- Processing --\n");
+		appendNewText("-- Processing --\n");
 		messages.setVisible(true);
 		messages.validate();
+		
+		GOButton.setEnabled(false);
 		
 		// dont need to do this now because cp is initialised and reset on parameter change
 		/*
@@ -789,6 +802,14 @@ public class ClusterPickerGUI {
 		messages.append("-- Completed in "+(stopTime-startTime)/1000+" seconds\n");
 		messages.validate();
 		
+	}
+	
+	public void appendNewText(String txt) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				messages.setText(messages.getText()+txt);
+			}
+		});
 	}
 	
 	
@@ -910,12 +931,98 @@ public class ClusterPickerGUI {
 	 *
 	 */
 	class GOActionListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			processData();
+			DoItJobThread t = new DoItJobThread();
+			t.start();
+			//processData();
 		}
 		
+	}
+	
+	class DoItJobThread extends Thread  {
+		public void run() {
+			
+			//do task
+			double startTime = System.currentTimeMillis();
+			
+			messages.setText("-- Processing --\n");
+			//change message
+			//appendNewText("-- Processing --\n");
+			messages.setVisible(true);
+			messages.validate();
+			GOButton.setEnabled(false);
+			
+			// dont need to do this now because cp is initialised and reset on parameter change
+			/*
+			cp.setInitialSupportThres(initialSupportThres);
+			cp.setSupportThres(supportThres);
+			cp.setGeneticThres( geneticThres / 100.0 );
+			cp.setLargeClusterThreshold(largeClusterThres);
+			*/
+
+			if ( (cp.seqNames != null) && (cp.theTree != null) ) {
+				
+				// 4 July 2012
+				// unfortunately, the sequences and tree have to be re-read in on the 2nd go
+				// otherwise the cluster picker doesnt work properly
+				// (currently it messes up the tree as it processes it)
+				
+				
+				// if any of the parameters, apart from large cluster threshold
+				// have been changed then do all of data processing
+				if (parametersChanged()) {
+				
+					loadSequences();
+					loadTree();
+					checkMissing();
+					UpdateMessage t2 = new UpdateMessage();
+					t2.start();
+					cp.processData();
+					t2.stop();
+					messages.setText("-- Processing --    Done\n");
+					
+					// set reprocess to false, if parameters changed then will -> true for next time
+					// except for large cluster threshold
+					reprocess = false;
+				} else {
+					messages.append("Just recalculate the number of large clusters\n");
+				}
+				
+				numClusters.setValue( cp.numberOfClusters() );
+				numLargeClusters.setValue( cp.numberOfLargeClusters() );
+				
+				String txt = cp.writeResults();
+				messages.append(txt);
+				
+			} else {
+				messages.setText("Sorry couldnt process data, try resetting sequences and tree files\n");
+			}
+			
+			double stopTime = System.currentTimeMillis();
+			
+			messages.append("-- Completed in "+(stopTime-startTime)/1000+" seconds\n");
+			messages.validate();
+		}
+	}
+	
+	class UpdateMessage extends Thread  {
+		public void run() {
+			while(true){
+				try{
+				TimeUnit.SECONDS.sleep(1);
+				messages.setText("-- Processing --    |");
+				TimeUnit.SECONDS.sleep(1);
+				messages.setText("-- Processing --    /");
+				TimeUnit.SECONDS.sleep(1);
+				messages.setText("-- Processing --    --");
+				TimeUnit.SECONDS.sleep(1);
+				messages.setText("-- Processing --    \\");
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+			}
+		}
 	}
 	
 	/**
