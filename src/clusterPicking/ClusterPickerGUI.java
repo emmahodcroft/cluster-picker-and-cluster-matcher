@@ -805,9 +805,10 @@ public class ClusterPickerGUI {
 	}
 	
 	public void appendNewText(String txt) {
+		final String bb = txt;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				messages.setText(messages.getText()+txt);
+				messages.setText(messages.getText()+bb);
 			}
 		});
 	}
