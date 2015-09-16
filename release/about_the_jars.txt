@@ -3,6 +3,8 @@ About these jars
 Updated 14 Sept 2015
 ---------------------------------------------------------
 
+will run on Java 1.6 and above. If you are getting error messages, try updating your Java installation.
+
 -------------------
 Cluster Picker jars
 -------------------
