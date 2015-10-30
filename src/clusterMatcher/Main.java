@@ -2564,10 +2564,17 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
     }
 
     //I got this code online... from a forum, after searching something like 'round decimal places in java'
+    //THIS CODE NO LONGER USED AS IT DOESNT WORK IN OTHER LOCALES! Like European where
+    //the decimal is 9,16 rather than 9.16 - causes big error. This should work on all locales!
     private double roundTwoDecimals(double d)
     {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-        return Double.valueOf(twoDForm.format(d));
+    if(verbose) {System.out.println("We are going to round this number: "+d);}
+
+    //	DecimalFormat twoDForm = new DecimalFormat("#.##");
+    //	return Double.valueOf(twoDForm.format(d));
+    
+    if(verbose) {System.out.println("This is the number rounded!: "+ Math.round(d*1e2)/1e2);}
+   		return Math.round(d*1e2)/1e2;
     }
 
     //detects typing in the percent or number of sequences textbox
