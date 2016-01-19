@@ -48,13 +48,15 @@ import java.beans.PropertyChangeEvent;
  * @version 10 June 2013 - added license details and URL etc to about box
  * @version 4  Sept 2013 - rebuilt with new ReadFasta
  * @version 14 Sept  2015 - Detects and throws error for polytomies, handles different styles of rooting, can handle missing branch length and BS info (ebh)
- *  also fixed message updating while running, and now displays little spinning line
+ *  also fixed message updating while running, and now displays little spinning line (EBH)
+ * @version 19 Jan 2016 - GO Button is re-enabled after finished data processing so that users can change files/params
+ * 	and re-run data. Manon used to do this with old version and says is good (variables zeroed out). (EBH)
  */
 public class ClusterPickerGUI {
 	
 	protected String appName   = "ClusterPicker";
-	protected String version   = "1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
-	protected String author	   = "Dr. S. J. Lycett";
+	protected String version   = "1.2.1 (19 Jan 2016)"; //1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
+	protected String author	   = "Dr. S. J. Lycett, Dr. E. B. Hodcroft, Dr. M. Ragonnet-Cronin";
 	protected String institute = "University of Edinburgh";
 	protected String citation  = "Ragonnet-Cronin et al Automated Analysis of Phylogenetic Clusters";
 	protected String url	   = "http://hiv.bio.ed.ac.uk/software.html";
@@ -744,6 +746,7 @@ public class ClusterPickerGUI {
 		// return true;
 	}
 	
+	//ebh - this seems like it's no longer used!! See Thread class below... this is now called. 19 jan 16
 	void processData() {
 		
 		double startTime = System.currentTimeMillis();
@@ -801,7 +804,7 @@ public class ClusterPickerGUI {
 		
 		messages.append("-- Completed in "+(stopTime-startTime)/1000+" seconds\n");
 		messages.validate();
-		
+
 	}
 	
 	public void appendNewText(String txt) {
@@ -1004,6 +1007,8 @@ public class ClusterPickerGUI {
 			
 			messages.append("-- Completed in "+(stopTime-startTime)/1000+" seconds\n");
 			messages.validate();
+			
+			GOButton.setEnabled(true); //ebh - lets users change params and re-run after finished processing data
 		}
 	}
 	
