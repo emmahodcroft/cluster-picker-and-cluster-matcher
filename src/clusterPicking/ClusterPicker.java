@@ -46,6 +46,8 @@ import java.io.*;
  * @version 20 July  2013 - corrections for command line operation from a single line
  * @version 12 Sept  2013 - added options for processing with ambiguities
  * @version 14 Sept  2015 - Detects and throws error for polytomies, handles different styles of rooting, can handle missing branch length and BS info (ebh)
+ * @version 19 Jan   2016 - Enabled a check in good_support_and_genetic_distance() to ensure that single sequences are not 'clustered' with themselves
+ * when bootstrap threshold is set to 0! Otherwise tips (since have support 0 and GenDist 0) are marked as a cluster! (EBH)
  */
 public class ClusterPicker {
 	
@@ -399,7 +401,9 @@ public class ClusterPicker {
 		Object trait   = n.getTrait();
 		if (trait != null) {
 			double  dd = (Double)trait;
-			boolean ok = ( (support >= supportThres) && ( dd <= geneticThres ) );
+			//EBH - 19 Jan 16 - Added a check to see if what's being looked at is a tip - if it is, it's not a
+			// cluster! Otherwise when BS thresh set to 0, seqs have genDist 0 and BS 0 and are counted as clusters!
+			boolean ok = ( (support >= supportThres) && ( dd <= geneticThres ) && !n.isTip() );
 			return ok;
 		} else {
 			return false;
@@ -1096,7 +1100,7 @@ public class ClusterPicker {
 	public static void main(String args[]) {
 		System.out.println("** ClusterPicker **");
 		System.out.println("");
-		System.out.println("ClusterPicker Copyright (C) 2015 S Lycett");
+		System.out.println("ClusterPicker Copyright (C) 2016 S Lycett");
 		System.out.println("This program comes with ABSOLUTELY NO WARRANTY");
 		System.out.println("This is free software, and you are welcome to redistribute it under certain conditions");
 		System.out.println("See GNU GPLv3 for details http://www.gnu.org/licenses/gpl-3.0.txt");
