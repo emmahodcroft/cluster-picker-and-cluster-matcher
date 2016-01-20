@@ -1,6 +1,6 @@
 ---------------------------------------------------------
 About these jars
-Updated 19 Jan 2016
+Updated 20 Jan 2016
 ---------------------------------------------------------
 
 will run on Java 1.6 and above. If you are getting error messages, try updating your Java installation.
@@ -9,16 +9,16 @@ will run on Java 1.6 and above. If you are getting error messages, try updating 
 Cluster Picker jars
 -------------------
 
-ClusterPicker_1.2.1.jar		built on 19/01/2016 10:33 by Emma Hodcroft
-* Command line operation only:	e.g. java -jar ClusterPicker_1.2.1.jar
-* single line operation:	e.g. java -jar ClusterPicker_1.2.1.jar sequencesFileName.fas treeFileName.nwk 0.9 0.9 0.045 10
+ClusterPicker_1.2.2.jar		built on 20/01/2016 14:43 by Emma Hodcroft
+* Command line operation only:	e.g. java -jar ClusterPicker_1.2.2.jar
+* single line operation:	e.g. java -jar ClusterPicker_1.2.2.jar sequencesFileName.fas treeFileName.nwk 0.9 0.9 0.045 10
 
 + option to change the way genetic distance is calculated included: choices = gap (default), valid, abs, ambiguity
-+ single line operation:	e.g. java -jar ClusterPicker_1.2.1.jar sequencesFileName.fas treeFileName.nwk 0.9 0.9 0.045 10 gap
++ single line operation:	e.g. java -jar ClusterPicker_1.2.2.jar sequencesFileName.fas treeFileName.nwk 0.9 0.9 0.045 10 gap
 
 
 
-ClusterPickerGUI_1.2.1.jar	built on 19/01/2016 10:47 by Emma Hodcroft
+ClusterPickerGUI_1.2.2.jar	built on 20/01/2016 14:42 by Emma Hodcroft
 * Cluster Picker GUI application
 - option to change the way genetic distance is calculated is NOT included; default setting = gap (unchanged from earlier versions)
 
@@ -29,4 +29,5 @@ Cluster Matcher jar
 
 ClustMatch1.2.5.jar		built on 30/10/2015 15:37 by Emma Hodcroft   - fixed decimal locale issue
 * Cluster Matcher GUI application
+
 ---------------------------------------------------------
