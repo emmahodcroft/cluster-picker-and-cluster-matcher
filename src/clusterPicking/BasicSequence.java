@@ -30,6 +30,7 @@ import java.util.Arrays;
  * @version 3  Oct  2011 - allow differences to be measured as: absolute (abs), ignoring gaps only (gap) or valid only (a,c,t,g)
  * @vesrion 4  July 2012 - added String, char[] constructor
  * @version 12 Sept 2013 - added ambiguity codes (optional)
+ * @version 13 march 2015 - M.Ragonnet - I have changed the ambig code so that sequence length is counted only from valid sites. also N is not a match for anything
  */
 public class BasicSequence {
 	
@@ -147,7 +148,7 @@ public class BasicSequence {
 	 */
 	public boolean isGap(int i) {
 		char site = charSeq[i];
-		boolean g = ( ( site == '-') || ( site == '~') );
+		boolean g = ( ( site == '-') || ( site == '~') || ( site == 'n') ); // I've moved the Ns up here
 		return g;
 	}
 	
@@ -159,8 +160,27 @@ public class BasicSequence {
 	public boolean isAmbiguity(int i) {
 		char site = charSeq[i];
 		boolean a = ( 	( site == 'm') || ( site == 'r') || ( site == 'w') || ( site == 's') || ( site == 'y') || ( site == 'k') || 
-						( site == 'v') || ( site == 'h') || ( site == 'd') || ( site == 'b') || ( site == 'n')  );
+						( site == 'v') || ( site == 'h') || ( site == 'd') || ( site == 'b')  );
 		return a;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	// count true sequence length (gaps and Ns should not be counted)
+	
+	public int trueLength(){
+		int noGapLength = 0;
+		int gapLength = 0;
+		int len   = this.charSeq.length;
+
+		for (int i = 0; i < len; i++) {
+			if (isGap (i)) {                       // is gap actually takes a number not the character
+					gapLength++;
+				}
+			}
+		noGapLength = len - gapLength;
+		//System.out.println(noGapLength);
+		return noGapLength;
+		
 	}
 	
 	///////////////////////////////////////////////////////////////////////
@@ -242,16 +262,17 @@ public class BasicSequence {
 	
 	
 	/**
-	 * returns true if the ambiguious site matches the unambiguous site, or the ambiguous site is -, ~, or n
+	 * returns true if the ambiguous site matches the unambiguous site, or the ambiguous site is -, ~, or n
 	 */
 	private boolean ambiguityMatch(char site, char amb) {
 		
-		//a: m, r, w, v, h, d, n
-		//c: m, s, y, v, h, b, n
-		//g: r, s, k, v, d, b, n
-		//t: w, y, k, h, d, b, n
+		//a: m, r, w, v, h, d
+		//c: m, s, y, v, h, b
+		//g: r, s, k, v, d, b
+		//t: w, y, k, h, d, b
 		
-		if ( (amb == 'n') || (amb == '-') || (amb == '~') || (amb == site) ) {
+		//if ( (amb == site) ) { actually the line below is OK now that length of sequences is only correct sites. we don't want to count as wrong when we have an N
+		if ( (amb == 'n') || (amb == '-') || (amb == '~') || (amb == site) ) { 
 			return true;
 		} else {
 		
@@ -394,10 +415,25 @@ public class BasicSequence {
 	public double ambiguityFractDifference(BasicSequence b) {
 		int count = 0;
 		int len   = charSeq.length;
+		int tLa = this.trueLength();
+		int tLb = b.trueLength();
+		int len2 = tLa;
+		
+		//System.out.println(this.charSeq);
+		//System.out.println("tLa"+tLa);
+		//System.out.println(b.charSeq);
+		//System.out.println("tLb"+tLb);
+		
 		
 		if (b.charSeq.length < len) {
 			len	  = b.charSeq.length;
 		}
+		
+		if (tLb < tLa) {
+			len2	  = tLb;
+			//System.out.println(len2);
+		}
+		
 		
 		for (int i = 0; i < len; i++) {
 			if ( isValid(i) ) {
@@ -418,7 +454,8 @@ public class BasicSequence {
 			}
 		}
 		
-		return ( (double)count / (double)len ) ;
+
+		return ( (double)count / (double)len2) ;
 	}
 	
 	public double fractDifference(BasicSequence b) {
