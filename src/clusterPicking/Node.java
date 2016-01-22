@@ -28,6 +28,7 @@ import java.util.*;
  * @version 22 Sept 2011
  * @version 12 Dec  2011
  * @version 15 Sept 2015
+ * @version 22 Jan 2016 - EBH - changed setSupportBranchLength so that it always sets both BL and BS even if one is missing..! (fixes bug)
  */
 public class Node implements Comparable<Node> {
 	
@@ -143,7 +144,6 @@ public class Node implements Comparable<Node> {
 	public void setSupportBranchLength(String txt) {
 		String[] els 		= txt.split(delim);
 		
-		
 		try {
 			
 			if (this.name.equals("")) {
@@ -151,16 +151,20 @@ public class Node implements Comparable<Node> {
 				ncount++;
 			}
 			
-			if(els[0].length() == 0){
+			if(els[0].length() == 0){		//if no BS, set bootstrap to 0
 				this.support = 0.0;
 				System.out.println("Warning: No support value, setting to 0.0");
-			} else if (els[1].length() == 0){
+			} else {
+				this.support = Double.parseDouble( els[0] );
+			}
+			
+			if (els[1].length() == 0){		//if no branch length, set BL to 0
 				this.branchLength = 0.0;
 				System.out.println("Warning: No branch length value, setting to 0.0");
 			} else {
-				this.support 		= Double.parseDouble( els[0] );
 				this.branchLength 	= Double.parseDouble( els[1] );
 			}
+			
 		} catch (NumberFormatException e) {
 			System.out.println("Node:setSupportBranchLength - Sorry cant set "+txt);
 			System.out.println(e.toString());
