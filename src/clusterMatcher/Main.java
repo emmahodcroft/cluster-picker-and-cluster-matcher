@@ -145,6 +145,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
      */
     public static void main(String[] args)
     {
+//    	Locale.setDefault(Locale.ITALY);   //use to test that roundTwoDecimals  works in different locales
         // TODO code application logic here
         System.out.println("** Cluster Matcher **");
         run(); //gogogo!
@@ -403,7 +404,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 String item = (String) fieldC.getItemAt(i);
                 String val = anotOps.get(item);
                 //System.out.println("val: "+val);
-                String tr = "\""+val.replaceAll("£&","\",\"")+"\""; //because fields are separated by '£&' change this to quotes and commas...
+                String tr = "\""+val.replaceAll("Â£&","\",\"")+"\""; //because fields are separated by 'Â£&' change this to quotes and commas...
                 //System.out.println("tr: "+tr);
                 header = header+","+tr+",\""+item+"_NA\"";
             }
@@ -477,7 +478,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 String item = (String) fieldC.getItemAt(i);
                 String val = anotOps.get(item);
                 //System.out.println("val: "+val);
-                String tr = "\""+val.replaceAll("£&","\",\"")+"\""; //because fields are separated by '£&' change this to quotes and commas...
+                String tr = "\""+val.replaceAll("Â£&","\",\"")+"\""; //because fields are separated by 'Â£&' change this to quotes and commas...
                 //System.out.println("tr: "+tr);
                 header = header+","+tr+",\""+item+"_NA\"";
             }
@@ -521,7 +522,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         {
             String k = it.next().toString();
             String soFar = anotOps.get(k);
-            String[] sf = soFar.split("£&");//(",");
+            String[] sf = soFar.split("Â£&");//(",");
             if(verbose) 
             {
                 System.out.println("Annotation " + k + " has " + (sf.length) + " variables.");
@@ -538,16 +539,16 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 if(file2RB.isSelected()) //if two files are selected, check to make sure field is in both data sets, if not, don't display
                 {
                     if(ric1.isFieldPresent(k) && ric2.isFieldPresent(k))
-                        toAdd = toAdd + k + "£&";//",";
+                        toAdd = toAdd + k + "Â£&";//",";
                 }
                 else
-                    toAdd = toAdd+k+"£&";//",";
+                    toAdd = toAdd+k+"Â£&";//",";
             }
         }
         if(!toAdd.isEmpty())
         {
             fieldC.setForeground(Color.BLACK);
-            String[] add = toAdd.split("£&");//(",");
+            String[] add = toAdd.split("Â£&");//(",");
             for(int i=0;i<add.length; i++)
             {
                 fieldC.addItem(add[i]);
@@ -836,7 +837,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 {
                     String item = (String) fieldC.getItemAt(i);
                     String val = anotOps.get(item);
-                    String[] vals = val.split("£&");//(",");
+                    String[] vals = val.split("Â£&");//(",");
                     int[] nums = ric.getClusAnnot(clus, item, vals);
                     for(int j=0; j<vals.length; j++)
                     {
@@ -867,7 +868,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     {
                         String item = (String) fieldC.getItemAt(x);
                         String val = anotOps.get(item);
-                        String[] vals = val.split("£&");//(",");
+                        String[] vals = val.split("Â£&");//(",");
                         int[] nums = ricO.getClusAnnot(clus2, item, vals);
                         for(int j=0; j<vals.length; j++)
                         {
@@ -1092,7 +1093,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 {
                     String item = (String) fieldC.getItemAt(i);
                     String val = anotOps.get(item);
-                    String[] vals = val.split("£&");//(",");
+                    String[] vals = val.split("Â£&");//(",");
                     int[] nums = ric.getClusAnnot(clus, item, vals);
                     for(int j=0; j<vals.length; j++)
                     {
@@ -1123,7 +1124,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     {
                         String item = (String) fieldC.getItemAt(x);
                         String val = anotOps.get(item);
-                        String[] vals = val.split("£&");//(",");
+                        String[] vals = val.split("Â£&");//(",");
                         int[] nums = ricO.getClusAnnot(clus2, item, vals);
                         for(int j=0; j<vals.length; j++)
                         {
@@ -1353,7 +1354,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 {
                     String item = (String) fieldC.getItemAt(i);
                     String val = anotOps.get(item);
-                    String[] vals = val.split("£&");//(",");
+                    String[] vals = val.split("Â£&");//(",");
                     int[] nums = ric.getClusAnnot(clus, item, vals);
                     for(int j=0; j<vals.length; j++)
                     {
@@ -1488,7 +1489,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
     {
         String com = "";
         if(!writtenFiles.isEmpty())
-            com = "££";
+            com = "Â£Â£";
         writtenFiles = writtenFiles+com+file;
     }
 
@@ -1776,7 +1777,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
         if(e.getSource() == runB && !writtenFiles.isEmpty()) //if not empty, means this instance has already printed files.. must delete or change output folder
         {
             String curOutDir = outFileT.getText().trim();
-            String oldOutDir = writtenFiles.split("££")[0];
+            String oldOutDir = writtenFiles.split("Â£Â£")[0];
             if(isWindows())
                 oldOutDir = oldOutDir.substring(0, oldOutDir.lastIndexOf('\\'));
             else //is unix, mac, or macosx
@@ -1791,7 +1792,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 validate();
                 if(choice == 0) //need to delete the previous files.
                 {
-                    if(deleteFiles(writtenFiles.split("££")) == true) //files deleted properly.. continue
+                    if(deleteFiles(writtenFiles.split("Â£Â£")) == true) //files deleted properly.. continue
                     {
                         writtenFiles = "";
                         outFile = outFile+"\r\n**Previously Written Files Were Deleted!**\r\n";
@@ -1890,7 +1891,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 valueC.removeAllItems();
                 String k = (String)fieldC.getSelectedItem();
                 String soFar = anotOps.get(k);
-                String[] sf = soFar.split("£&");//(",");
+                String[] sf = soFar.split("Â£&");//(",");
                 for(int i=0;i<sf.length; i++)
                 {
                     valueC.addItem(sf[i]);
@@ -2481,7 +2482,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     int numSeqs = ric1.getNumSeqsInClus(clus);
                     outFile = outFile+"\tOf the "+numSeqs+" sequences in these clusters:\r\n";
                     String values = anotOps.get(fieldC.getSelectedItem());
-                    String[] vals = values.split(",");
+                    String[] vals = values.split("Â£&");//(",");
                     int[] tots = ric1.getClusAnnot(clus, (String)fieldC.getSelectedItem(), vals);
                     int totVal = 0;
                     for(int i=0; i<vals.length; i++)
@@ -2498,7 +2499,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     int numSeqs = ric1.getNumSeqsInClus(clus);
                     outFile = outFile+"\tOf the "+numSeqs+" sequences in the clusters returned from data set 1:\r\n";
                     String values = anotOps.get(fieldC.getSelectedItem());
-                    String[] vals = values.split("£&");//(",");
+                    String[] vals = values.split("Â£&");//(",");
                     int[] tots = ric1.getClusAnnot(clus, (String)fieldC.getSelectedItem(), vals);
                     int totVal = 0;
                     for(int i=0; i<vals.length; i++)
