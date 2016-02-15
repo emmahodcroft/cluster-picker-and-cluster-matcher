@@ -796,7 +796,7 @@ public class ReadInClusters {
                     {
                         //System.out.println("******** "+soFar+" does not yet contain "+anot[i]);
                         if(!soFar.isEmpty())
-                            soFar = soFar+"£&";
+                            soFar = soFar+"Â£&";
                             //soFar = soFar+",";
                         soFar = soFar + anot[i];
                         annots.put(annotFields[i], soFar);
