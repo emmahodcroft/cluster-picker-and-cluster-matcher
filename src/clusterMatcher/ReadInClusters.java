@@ -1,6 +1,6 @@
 package clusterMatcher;
 
-/** Copyright 2011-2013 Emma Hodcroft
+/** Copyright 2011-2016 Emma Hodcroft
  * This file is part of ClusterMatcher. (Also may be referred to as
  * "ClustMatcher" or "ClustMatch".)
  *
@@ -789,34 +789,64 @@ public class ReadInClusters {
         {
             if(annots.containsKey(annotFields[i]))
             {
-                if(!anot[i].isEmpty())
+                if(!anot[i].isEmpty())  
                 {
-                    String soFar = annots.get(annotFields[i]);
-                    if(!soFar.contains(anot[i]))
-                    {
-                        //System.out.println("******** "+soFar+" does not yet contain "+anot[i]);
-                        if(!soFar.isEmpty())
-                            soFar = soFar+"Â£&";
-                            //soFar = soFar+",";
-                        soFar = soFar + anot[i];
-                        annots.put(annotFields[i], soFar);
-                    }
+                    String soFar = annots.get(annotFields[i]);//get all the values we've encountered so far
+					String soFars[] = soFar.split("Â£&"); //split them into values to compare individually
+					boolean match = false;
+					//this now compared individual values rather than looking for a value in a string
+					// if(!soFar.contains(anot[i]))   because in this case, if new value is a substring of existing value
+					// example: male and female - then it will not be added! Because when searches for 'male'
+					// it finds it already exists within 'female'!!  - EBH 16 Feb 2016
+					for(int j=0;j<soFars.length;j++){  //is the current value one we've already encountered?
+						if(soFars[j].equals(anot[i]))
+							match = true;
+					}
+					if(!match){  //if the new value is not already in the existing list of values, add it. 
+						//System.out.println("******** "+soFar+" does not yet contain "+anot[i]);
+	                    if(!soFar.isEmpty())
+	                        soFar = soFar+"Â£&";
+	                        //soFar = soFar+",";
+	                    soFar = soFar + anot[i];
+	                    annots.put(annotFields[i], soFar);
+					}
                 }
             }
             else
                 annots.put(annotFields[i], anot[i]);
+            
             if(annotVars.containsKey(annotFields[i]))
             {
                 if(!anot[i].isEmpty())
                 {
-                    String soFar = annotVars.get(annotFields[i]);
-                    if(!soFar.contains(anot[i]))
+                    String soFar = annotVars.get(annotFields[i]);//get all the values we've encountered so far
+                    String soFars[] = soFar.split("Â£&"); //split them into values to compare individually
+					boolean match = false;
+					//this now compared individual values rather than looking for a value in a string
+					// if(!soFar.contains(anot[i]))   because in this case, if new value is a substring of existing value
+					// example: male and female - then it will not be added! Because when searches for 'male'
+					// it finds it already exists within 'female'!!  - EBH 16 Feb 2016
+					for(int j=0;j<soFars.length;j++){  //is the current value one we've already encountered?
+						if(soFars[j].equals(anot[i]))
+							match = true;
+					}
+					if(!match){  //if the new value is not already in the existing list of values, add it. 
+						//System.out.println("******** "+soFar+" does not yet contain "+anot[i]);
+	                    if(!soFar.isEmpty())
+	                        soFar = soFar+"Â£&";
+	                        //soFar = soFar+",";
+	                    soFar = soFar + anot[i];
+	                    annotVars.put(annotFields[i], soFar);
+					}
+                    
+                    /*  if(!soFar.contains(anot[i]))  //old way of determining if value was present - see above
                     {
                         if(!soFar.isEmpty())
                             soFar = soFar+",";
                         soFar = soFar + anot[i];
                         annotVars.put(annotFields[i], soFar);
-                    }
+                    } */
+                    
                 }
             }
             else
@@ -841,7 +871,7 @@ public class ReadInClusters {
         for(int i=0;i<annotFields.length;i++)
         {
             String soFar = annotVars.get(annotFields[i]);
-            String[] possibs = soFar.split(",");
+            String[] possibs = soFar.split("Â£&");
             System.out.print(annotFields[i]+": "+possibs.length+" variables");
             for(int j=0;j<possibs.length;j++)
                 System.out.print(" "+possibs[j]);
