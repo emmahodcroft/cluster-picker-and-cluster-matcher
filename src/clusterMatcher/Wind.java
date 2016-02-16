@@ -1,6 +1,6 @@
 package clusterMatcher;
 
-/** Copyright 2011-2013 Emma Hodcroft
+/** Copyright 2011-2016 Emma Hodcroft
  * This file is part of ClusterMatcher. (Also may be referred to as
  * "ClustMatcher" or "ClustMatch".)
  *
@@ -194,7 +194,7 @@ String[] dataSets = {"Data Set 1", "Data Set 2", "Both"};
     JPanel bottomP = new JPanel(new BorderLayout());
         JPanel bottomP1 = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         JPanel bottomP2 = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
-            JLabel bottomL = new JLabel("Copyright 2013-2015 - Emma Hodcroft, Leigh Brown Group, University of Edinburgh");
+            JLabel bottomL = new JLabel("Copyright 2013-2016 - Emma Hodcroft, Leigh Brown Group, University of Edinburgh");
             JLabel bottomL2 = new JLabel("Licensed under GNU GPLv3"); 
             Font f2 = new Font("f", Font.PLAIN, 10);
 
