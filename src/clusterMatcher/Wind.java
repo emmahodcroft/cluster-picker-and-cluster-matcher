@@ -24,6 +24,12 @@ package clusterMatcher;
  * to be used in the program to allow the user to load a file containing a tree
  * (or trees) and other files, and also control the other
  * functions of the program (such as adding and deleting new nodes).
+ * 
+ * Turn on/off debug using the verbose boolean below (turns on for entire program)
+ * 
+ * Also you can enable printing all clusters to one FigTree file (for easy viewing) if only 1 data file is loaded.
+ * Use the printClusTogether boolean below. WARNING: If you are generating a lot of clusters this may produce a file
+ * too big for FigTree to load!!
  *
  */
 
@@ -35,6 +41,8 @@ public class Wind extends JFrame
 {
     // Allows consule debug messages to be turned on (true) or off(false)
     final static boolean verbose = false;
+    // Prints all selected clusters into one FigTree file for easy viewing, if only 1 data file is loaded
+    final static boolean printClusTogether = false;
     // Shows the cheat button (fills the GUI in with hard-coded file names) if TRUE, hides it if false
     final static boolean cheating = false;
 
