@@ -82,6 +82,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
     String timeN = "";
     int numWrites = 1;
 
+    String clustInfoHead=""; //used to carry header info for detailed info on clusters
     String clustInfo=""; //used to carry detailed info on clusters
 
     public Main()
@@ -197,12 +198,12 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     attachAnnots(1, anotDs2T.getText().trim(), 2, anotDs2T.getText().trim());
             }
             else if(continueRun)//if have 2 data sets, but not annotating, set up the clustInfo file correctly
-                clustInfo = "DataSet,Clust_ID,Matching_Clust_ID,Num_Seqs,Num_Seq_wMatch\n";
+                clustInfoHead = clustInfo = "DataSet,Clust_ID,Matching_Clust_ID,Num_Seqs,Num_Seq_wMatch\n";
         }
         else if(continueRun && anotDs1CB.isSelected()) // if want annotate with 1 data set, read in that, too
             attachAnnots(1, anotDs1T.getText().trim());
         else if(continueRun)//if have 1 data sets, but not annotating, set up the clustInfo file correctly
-            clustInfo = "Clust_ID,Num_Seqs\n";
+            clustInfoHead = clustInfo = "Clust_ID,Num_Seqs\n";
 
         if(continueRun)
         {
@@ -408,7 +409,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 //System.out.println("tr: "+tr);
                 header = header+","+tr+",\""+item+"_NA\"";
             }
-            clustInfo = header+"\n";
+            clustInfoHead = clustInfo = header+"\n";
             //for extended cluster info run
         }
         catch (FileNotFoundException e) {
@@ -482,7 +483,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 //System.out.println("tr: "+tr);
                 header = header+","+tr+",\""+item+"_NA\"";
             }
-            clustInfo = header+"\n";
+            clustInfoHead = clustInfo = header+"\n";
             //for extended cluster info run
         }
         catch (FileNotFoundException e) {
@@ -1320,7 +1321,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
      * Since there is no matching, does not have to be adjusted for matches based on the same seq names in both
      * data sets.
      */
-    public void printCluster(int whi, String cluster, boolean annot, JButton b)
+    public String printCluster(int whi, String cluster, boolean annot, JButton b)
     {
   long st = System.currentTimeMillis(); //for timing the efficiency of the function
         ReadInClusters ric = ric1;
@@ -1444,6 +1445,91 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                     + "  loopArray: "+(treeAdd-stSeqAdd));
             }
         }
+        return "\ttree cluster"+cluster+" = [&R] " + ric.getClusterCode(cluster, annot)+"\n";
+    }
+    
+    /*
+     * A function to just print from 1 datafile only!
+     * Clusters have already been printed individually, now all clusters are put into one FigTree file
+     */  //ebh
+    public void printAllClusters(int whi, JButton b, String[] clustCode)
+    {
+  long st = System.currentTimeMillis(); //for timing the efficiency of the function
+        ReadInClusters ric = ric1;
+        String allClustFile = "AllClusters_"+numWrites+".figTree";
+        if(whi == 1)
+        {
+            ric = ric1;
+            allClustFile = "dataSet1_"+allClustFile;
+        }
+        else
+        {
+            ric = ric2;
+            allClustFile = "dataSet2_"+allClustFile;
+        }
+        
+        String file = "";
+        String[] totNodes = ric.getTotalNodes();
+        file = "#NEXUS"
+                +"\nbegin taxa;"
+                +"\ndimensions ntax="+totNodes.length+";"
+                +"\n\ttaxlabels\n";
+
+        if(b == runB)
+        {
+
+            //add all sequences from the tree to the file
+      long stSeqAdd = System.currentTimeMillis(); //for timing the efficiency of the function
+            String totN = Arrays.toString(totNodes);
+            totN = totN.substring(1,totN.length()-1);
+            totN = totN.replaceAll(", ", "\n\t");
+            file = file + "\t"+totN+"\n";
+            totN = null;
+
+            //get the tree code for the whole tree and the cluster
+        long treeAdd = System.currentTimeMillis(); //for timing the efficiency of the function
+
+            file = file+"\t;\n"
+            +"end;\n"
+            +"begin trees;\n";
+            for(int j=0; j<clustCode.length; j++)
+            {
+            	file = file+clustCode[j];
+            }
+            file = file +"end;\n";
+
+            //finish off the file
+      long stEndFile = System.currentTimeMillis(); //for timing the efficiency of the function
+            file = file+"begin figtree;\n"
+            +"\tset tipLabels.colorAttribute=\"User Selection\";\n"
+            +"\tset tipLabels.displayAttribute=\"Names\";\n"
+            +"\tset tipLabels.fontName=\"Arial\";\n"
+            +"\tset tipLabels.fontSize=10;\n"
+            +"\tset tipLabels.fontStyle=0;\n"
+            +"\tset tipLabels.isShown=true;\n"
+            +"\tset tipLabels.significantDigits=4;\n"
+            +"\tset trees.order=true;\n"
+            +"\tset trees.orderType=\"increasing\";\n"
+            +"\tset trees.rooting=false;\n"
+            +"\tset trees.rootingType=\"User Selection\";\n"
+            +"\tset trees.transform=false;\n"
+            +"\tset trees.transformType=\"cladogram\";\n"
+            +"\tset branchLabels.fontName=\"Arial\";\n"
+            +"\tset branchLabels.fontSize=10;\n"
+            +"\tset scaleBar.fontSize=11.0;\n"
+            +"end;\n";
+
+            printStringToFile(file, allClustFile);
+       long en = System.currentTimeMillis(); //for timing the efficiency of the function
+            if(verbose) //for timing the efficiency of the function
+            {
+                System.out.println("Print all clusters" + ": \ntot: " + (en - st) + ""
+                    + "  1: "+(stSeqAdd-st)+"  2: "+ (treeAdd-stSeqAdd)
+                    + "  3: "+(stEndFile-treeAdd)+"  4: "+ (en-stEndFile)
+                    + "  loopArray: "+(treeAdd-stSeqAdd));
+            }
+        }
+
     }
 
     /*
@@ -2823,6 +2909,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 printStringToFile(clustInfo, "clustInfo_"+numWrites+"_"+timeN+".csv");
                 addFileToList("clustInfo_"+numWrites+"_"+timeN+".csv");
                 numWrites++;
+                clustInfo = clustInfoHead; //reset clustInfo ready for next print.
             }
         }
 
@@ -2865,6 +2952,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
             double interv = 100.0/(double)clus.length;
             //System.out.println("interval is: "+interv);
 
+            String clusStrings [] = new String[clus.length]; //ebh
             for(int i=0; i<clus.length; i++)
             {
                 if(isCancelled())
@@ -2873,7 +2961,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                         String.format("Writing file %d.\n", i+1);
                 pm.setNote(message);
 
-                printCluster(whi, clus[i], annot, b);
+                clusStrings[i] = printCluster(whi, clus[i], annot, b);
 
                 double upd = ((i+1)*interv) ;
                 //System.out.println("current percent is: "+upd);
@@ -2883,6 +2971,8 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 if(i==clus.length && p != 100) //if at end of run and progress hasn't been completed on bar, do it now.
                     setProgress(100);
             }
+            if(printClusTogether)  //turn this on in Wind.java - to print all selected clusters to one FigTree file
+            	printAllClusters(whi, b, clusStrings);
             return null;
         }
 
@@ -2896,6 +2986,7 @@ public class Main extends Wind implements WindowListener, ItemListener, ActionLi
                 printStringToFile(clustInfo, "clustInfo_"+numWrites+"_"+timeN+".csv");
                 addFileToList("clustInfo_"+numWrites+"_"+timeN+".csv");
                 numWrites++;
+                clustInfo = clustInfoHead; //reset clustInfo ready for next print.
             }
         }
 
