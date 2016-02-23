@@ -1,6 +1,6 @@
 ---------------------------------------------------------
 About these jars
-Updated 16 Feb 2016
+Updated 23 Feb 2016
 ---------------------------------------------------------
 
 will run on Java 1.6 and above. If you are getting error messages, try updating your Java installation.
@@ -27,7 +27,7 @@ ClusterPickerGUI_1.2.3.jar	built on 22/01/2016 13:56 by Emma Hodcroft
 Cluster Matcher jar
 -------------------
 
-ClustMatch1.2.6.jar		built on 16/02/2016 14:13 by Emma Hodcroft   - fixed annotation processing bug
+ClustMatch1.2.7.jar		built on 23/02/2016 16:14 by Emma Hodcroft   - fixed annotation processing bug, csv output bug
 * Cluster Matcher GUI application
 
 ---------------------------------------------------------
