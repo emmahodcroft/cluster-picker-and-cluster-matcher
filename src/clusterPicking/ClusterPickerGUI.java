@@ -18,7 +18,7 @@ import java.beans.PropertyChangeEvent;
  *  ClusterPickerGUI - 
  *  This is the GUI front end - see ClusterPicker.java for actual cluster picker implementation.
  *  Picks clusters from a phylogenetic tree and set of sequences according to bootstrap values and genetic distance.
- *  Copyright (C) 2013  Samantha Lycett
+ *  Copyright (C) 2016  Samantha Lycett
  *  
  *  This file is part of ClusterPicker.
  *
@@ -51,11 +51,12 @@ import java.beans.PropertyChangeEvent;
  *  also fixed message updating while running, and now displays little spinning line (EBH)
  * @version 19 Jan 2016 - GO Button is re-enabled after finished data processing so that users can change files/params
  * 	and re-run data. Manon used to do this with old version and says is good (variables zeroed out). (EBH)
+ * @version 13 Apr  2016 - include full list of sequence name + cluster number as separate output file
  */
 public class ClusterPickerGUI {
 	
 	protected String appName   = "ClusterPicker";
-	protected String version   = "1.2.1 (19 Jan 2016)"; //1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
+	protected String version   = "1.2.4 (13 Apr 2016)"; //"1.2.1 (19 Jan 2016)"; //1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
 	protected String author	   = "Dr. S. J. Lycett, Dr. E. B. Hodcroft, Dr. M. Ragonnet-Cronin";
 	protected String institute = "University of Edinburgh";
 	protected String citation  = "Ragonnet-Cronin et al Automated Analysis of Phylogenetic Clusters";
@@ -1407,7 +1408,7 @@ public class ClusterPickerGUI {
 		//  your GUI creation code should be placed on the Event Dispatch Thread (EDT). 
 		//  This will prevent potential race conditions that could lead to deadlock
 		
-		System.out.println("ClusterPicker Copyright (C) 2013 Samantha Lycett");
+		System.out.println("ClusterPicker Copyright (C) 2016 Samantha Lycett");
 		System.out.println("This program comes with ABSOLUTELY NO WARRANTY");
 		System.out.println("This is free software, and you are welcome to redistribute it under certain conditions");
 		System.out.println("See GNU GPLv3 for details http://www.gnu.org/licenses/gpl-3.0.txt");

@@ -7,7 +7,7 @@ import java.io.*;
  *  ClusterPicker -
  *  This is the ClusterPicker and also contains a command line interface.
  *  Picks clusters from a phylogenetic tree and set of sequences according to bootstrap values and genetic distance.
- *  Copyright (C) 2013  Samantha Lycett
+ *  Copyright (C) 2016  Samantha Lycett
  *  
  *  This file is part of ClusterPicker.
  *
@@ -48,6 +48,7 @@ import java.io.*;
  * @version 14 Sept  2015 - Detects and throws error for polytomies, handles different styles of rooting, can handle missing branch length and BS info (ebh)
  * @version 19 Jan   2016 - Enabled a check in good_support_and_genetic_distance() to ensure that single sequences are not 'clustered' with themselves
  * when bootstrap threshold is set to 0! Otherwise tips (since have support 0 and GenDist 0) are marked as a cluster! (EBH)
+ * @version 13 Apr   2016 - added output file for complete list of sequence + cluster assignments
  */
 public class ClusterPicker {
 	
@@ -59,11 +60,16 @@ public class ClusterPicker {
 	boolean storePairwise 	= false;					// set this to true if you have a small dataset
 														// it will store any calculated pairwise distance and re-use the value if needed rather than calculate from scratch each time
 	
+	boolean doFullList		= true;						// 13 Apr 2016 - option to output full list of all sequence names + cluster number (-1 if no cluster)
+	
+	
+	
 	String treeFileName;
 	String sequencesFileName;
 	String outName;
 	String logName;
 	String outTreeName;
+	String listName;									// 13 Apr 2016
 	
 	Tree 						theTree;
 	List<BasicSequence> 		seqs;
@@ -175,6 +181,10 @@ public class ClusterPicker {
 		String tn			 = (new File(treeFileName)).getName().replace("."+ext, ""); 
 		
 		this.outName 		 = sequencesFileName.replace(".fas", "")+"_"+tn+"_clusterPicks.fas";
+		
+		// 13 Apr 2016
+		this.listName		 = s.replace("."+ext, "")+"_clusterPicks_list.txt";
+		
 		
 		// read the tree from the tree file name
 		readTree();
@@ -543,6 +553,10 @@ public class ClusterPicker {
 		// hash table to contain old name, new name
 		Hashtable<String,String> clusteredSequenceNames = new Hashtable<String,String>();
 		
+		// 13 Apr 2016
+		// keep a table of all sequences and their corresponding cluster number
+		Hashtable<String,Integer> allSeqsClustNumbers = new Hashtable<String,Integer>();
+		
 		// start setting up fig tree colour tables
 		FigTreeWriter figTree = new FigTreeWriter();
 		figTree.loadRainbowColours();
@@ -594,6 +608,11 @@ public class ClusterPicker {
 			
 			for ( BasicSequence s : cl ) {
 				
+				// 13 Apr 2016
+				if (doFullList) {
+					allSeqsClustNumbers.put(s.header(), clusterNumber);
+				}
+				
 				// rename sequence with cluster name
 				String newName = "Clust"+clusterNumber+"_"+s.header();
 				clusteredSequenceNames.put(s.header(), newName);
@@ -626,6 +645,7 @@ public class ClusterPicker {
 		Hashtable<String,String> tempTbl = new Hashtable<String,String>();
 		
 		for ( Node n : theTree.getNodes() ) {
+			// 13 Apr 2016 should have if n.isTip() in here too but dont want to change too much
 			if ( clusteredSequenceNames.containsKey(n.getName() ) ) {
 				String newName = clusteredSequenceNames.get(n.getName());
 				//System.out.println(n.getName()+" renamed "+newName);
@@ -636,12 +656,42 @@ public class ClusterPicker {
 				//figTree.setColour(newName, 255, 0, 255);
 
 			}
+			
+			// 13 Apr 2016
+			if (doFullList) {
+				if (n.isTip() && !allSeqsClustNumbers.containsKey(n.getName())) {
+					allSeqsClustNumbers.put(n.getName(), -1);
+				}
+			}
 		}
 		
 		TreeWriter outTree = new TreeWriter();
 		outTree.write(theTree, outTreeName);
 		
 		figTree.writeTree(theTree, outTreeName+".figTree");
+		
+		
+		// 13 Apr 2016
+		// write tab delimited file with all sequence names and their corresponding cluster
+		// keeping this as separate as possible
+		if (doFullList) {
+			try {
+				BufferedWriter listFile = new BufferedWriter(new FileWriter(listName));
+				String header = "SequenceName" + "\t" + "ClusterNumber";
+				listFile.write(header);
+				listFile.newLine();
+				for (String sn : allSeqsClustNumbers.keySet()) {
+					String line = sn + "\t" + allSeqsClustNumbers.get(sn);
+					listFile.write(line);
+					listFile.newLine();
+				}
+				listFile.close();
+			} catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+		
+		
 		
 		// put the original names back in the tree, incase want to reuse
 		// e.g. in GUI
@@ -711,6 +761,11 @@ public class ClusterPicker {
 		txt.append("Written renamed tree to "+outTreeName+"\n");
 		txt.append("Written coloured figTree to "+outTreeName+".figTree\n");
 		txt.append("Written log to "+logName+"\n");
+		
+		// 13 Apr 2016
+		if (doFullList) {
+			txt.append("Written list to "+listName+"\n");
+		}
 		
 		if (verbose) {
 			System.out.println(txt.toString());
