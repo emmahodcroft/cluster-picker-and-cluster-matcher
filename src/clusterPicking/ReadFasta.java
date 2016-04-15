@@ -27,6 +27,7 @@ import java.util.*;
  * @version	19 Sept 07
  * @version 26 Sept 07
  * @version 4  Sept 2013 - using nextLine rather than specifying delimiter on Scanner
+ * @version 15 Apr  2016 - using StringBuffer
  *
  */
 public class ReadFasta {
@@ -105,15 +106,26 @@ public class ReadFasta {
 			
 			line			= "x";
 			String sequence = "";
+			
+			// 15 apr 2016
+			StringBuffer temp = new StringBuffer();
+			
 			// while not at a start line
 			while ( ( !line.startsWith(recordStart) ) && (dataFile.hasNext()) ) {
 				//line 		= dataFile.next().trim();
 				line		= dataFile.nextLine().trim();	// 4 Sept 2013
 				
 				if ( !line.startsWith(recordStart) ) {
-					sequence 	= sequence + line;
+					// 15 apr 2015
+					// sequence 	= sequence + line;			// this is very slow on long sequences
+					
+					// 15 apr 2016 - try like this instead
+					temp.append(line);
 				}
 			}
+			
+			// 15 apr 2016
+			sequence = temp.toString();
 			
 			// add the sequence data
 			lines[1] = sequence;

@@ -52,11 +52,12 @@ import java.beans.PropertyChangeEvent;
  * @version 19 Jan 2016 - GO Button is re-enabled after finished data processing so that users can change files/params
  * 	and re-run data. Manon used to do this with old version and says is good (variables zeroed out). (EBH)
  * @version 13 Apr  2016 - include full list of sequence name + cluster number as separate output file
+ * @version 15 Apr  2016 - corrected full list output
  */
 public class ClusterPickerGUI {
 	
 	protected String appName   = "ClusterPicker";
-	protected String version   = "1.2.4 (13 Apr 2016)"; //"1.2.1 (19 Jan 2016)"; //1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
+	protected String version   = "1.2.4 (15 Apr 2016)"; //"1.2.1 (19 Jan 2016)"; //1.0 (4 Sept 2013)";	//"1.0 (10 June 2013)";	//"1.0 (23 July 2012)";
 	protected String author	   = "Dr. S. J. Lycett, Dr. E. B. Hodcroft, Dr. M. Ragonnet-Cronin";
 	protected String institute = "University of Edinburgh";
 	protected String citation  = "Ragonnet-Cronin et al Automated Analysis of Phylogenetic Clusters";

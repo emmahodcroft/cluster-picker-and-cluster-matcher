@@ -49,6 +49,7 @@ import java.io.*;
  * @version 19 Jan   2016 - Enabled a check in good_support_and_genetic_distance() to ensure that single sequences are not 'clustered' with themselves
  * when bootstrap threshold is set to 0! Otherwise tips (since have support 0 and GenDist 0) are marked as a cluster! (EBH)
  * @version 13 Apr   2016 - added output file for complete list of sequence + cluster assignments
+ * @version 15 Apr	 2016 - corrected complete list output
  */
 public class ClusterPicker {
 	
@@ -657,18 +658,28 @@ public class ClusterPicker {
 
 			}
 			
-			// 13 Apr 2016
-			if (doFullList) {
-				if (n.isTip() && !allSeqsClustNumbers.containsKey(n.getName())) {
-					allSeqsClustNumbers.put(n.getName(), -1);
-				}
-			}
+			// 15 Apr 2016 - this part not needed now
+			//if (doFullList) {
+			//	if (n.isTip() && !allSeqsClustNumbers.containsKey(n.getName())) {
+			//		allSeqsClustNumbers.put(n.getName(), -1);
+			//	}
+			//}
+			
 		}
 		
 		TreeWriter outTree = new TreeWriter();
 		outTree.write(theTree, outTreeName);
 		
 		figTree.writeTree(theTree, outTreeName+".figTree");
+		
+		
+		// 15 Apr 2016
+		// add all the remaining sequence names with cluster number = -1
+		for (String sn : seqNames) {
+			if (!allSeqsClustNumbers.containsKey(sn)) {
+				allSeqsClustNumbers.put(sn, -1);
+			}
+		}
 		
 		
 		// 13 Apr 2016
