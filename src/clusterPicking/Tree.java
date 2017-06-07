@@ -32,6 +32,8 @@ import java.util.regex.*;
  * @version 3  Oct  2011 - accepts - in tip names also
  * @version 8  Nov  2011 - changed support regex
  * @version 15 Sept	2015 - Now errors if polytomy detected. Can handle missing branch length and bootstrap info. Can handle different types of rooting. Message update works now when processing, and spinning bar is displayed. 'GO' button disabled while processing and if error.
+ * @version 21 Feb 2017 - See line 46 - seq names can contain {} - implement next release
+ * @version 7 Jun 2017 - Added a check to ensure trees are parsing correctly - throws error if large parts of tree unparsed! EBH
  */
 public class Tree {
 
@@ -42,7 +44,8 @@ public class Tree {
 String bootstrapRegex = "((\\-)?+[0-9]+(\\.[0-9eE\\-]+)?)?"; //ebh 
 	String 	branchDelim			= ":";
 	//String  nodeRegex   	  	= "[a-zA-Z_0-9\\.]+" +   branchDelim + branchLengthRegex;
-	String  nodeRegex   	  	= "[a-zA-Z_0-9\\.\\|/\\-]+" +   branchDelim + branchLengthRegex;
+	String  nodeRegex   	  	= "[a-zA-Z_0-9\\.\\|/\\-{}]+" +   branchDelim + branchLengthRegex; //USE THIS ONE if want node names to be able to contain {}
+	//String  nodeRegex   	  	= "[a-zA-Z_0-9\\.\\|/\\-]+" +   branchDelim + branchLengthRegex;
 	//String  supportRegex		= "[0-9]+\\.[0-9]+" + branchDelim + branchLengthRegex;
 //	String  supportRegex		= branchLengthRegex + branchDelim + branchLengthRegex; //ebh
 String supportRegex = bootstrapRegex + branchDelim + branchLengthRegex; //ebh
@@ -273,13 +276,15 @@ Pattern biPattern = Pattern.compile( "\\(" + nodeRegex + "," + nodeRegex + "\\)"
 			//System.out.println("Diff = "+diffLength);
 			//System.out.println("Temp tree = "+tempTr);
 		}
+//System.out.println("\nafter processTree this is tree: "+tempTr);
 		
 		//check again it hasn't stopped early because of a polytomy
 		//polytomies found here are internal - where one or more nodes in the polytomy
 		//are internal nodes (not tips)
 		elMatcher = polyPattern.matcher(tempTr);  //ensure has new tempTr
+		
 		if (elMatcher.find()) {  //if find polytomy
-//			System.out.println("Internal polytomy found: "+elMatcher.group()); //this will show even if is root polytomy which is ok
+			System.out.println("Internal polytomy found: "+elMatcher.group()); //this will show even if is root polytomy which is ok
 			//polytomy only bad at this stage if not at root 
 			//should only have 1 open parenthesis
 			Matcher m = Pattern.compile("\\(").matcher(tempTr);
@@ -290,9 +295,26 @@ Pattern biPattern = Pattern.compile( "\\(" + nodeRegex + "," + nodeRegex + "\\)"
 			
 			//System.out.println("number of (: "+matches);
 			if(matches > 1){
-				System.out.println("***ERROR*** INTERNAL POLYTOMY FOUND!!!");
+				System.out.println("\n***ERROR*** INTERNAL POLYTOMY FOUND!!!");
 				throw new UnsupportedOperationException("ERROR: An internal polytomy was found. The ClusterMatcher cannot handle tip or internal polytomies. Please remove the polytomy from your tree and re-run the ClusterPicker.\n...Exiting...");
 			}
+		} else {
+			//if don't find a polytomy, ensure that weird symbols aren't messing up run! 
+			//weird symbols in tip names stop the patternMatching from working so you are left with big chunks of unprocessed tree!
+			//should only have 1 open parenthesis
+			Matcher m = Pattern.compile("\\(").matcher(tempTr);
+
+			int matches = 0;
+			while(m.find())
+			    matches++;
+			
+			//System.out.println("number of (: "+matches);
+			if(matches > 2){
+				System.out.println("\n***ERROR*** TREE NOT PARSING CORRECTLY!!!! Check for unsupported symbols in sequence names!");
+				throw new UnsupportedOperationException("ERROR: The tree does not seem to be parsing correctly. This is usually caused by unsupported symbols in tip names, like ? ' or : . Please remove any unsupported symbols and re-run the ClusterPicker.\n...Exiting...");
+
+			}
+			
 		}
 			
 		tempTr = processBifucation(tempTr);
