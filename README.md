@@ -6,7 +6,7 @@ If you are an advanced user, you may prefer to view this respository on GitHub i
 
 If you're just here for the latest JAR files to run the programs, we can help you!
 
-Try going [to the release folder] (https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/release) to download.
+Try going [to the release folder](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/release) to download.
 
 You can use the [editor on GitHub](https://github.com/emmahodcroft/emmahodcroft.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
