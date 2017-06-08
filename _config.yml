@@ -1,3 +1,4 @@
 theme: jekyll-theme-slate
 title: Cluster Picker and Cluster Matcher
 description: For all your clustering needs!
+show_downloads: true
