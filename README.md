@@ -8,7 +8,7 @@ If you're just here for the latest JAR files to run the programs, we can help yo
 
 Try going [to the release folder](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/release) to download.
 
-Download the latest ClusterPickerGUI [here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/release/ClusterPickerGUI_1.2.5.jar).
+Download the latest ClusterPickerGUI [here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClusterPickerGUI_1.2.5.jar).
 
 You can use the [editor on GitHub](https://github.com/emmahodcroft/emmahodcroft.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
