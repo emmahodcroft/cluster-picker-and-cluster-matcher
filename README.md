@@ -2,6 +2,12 @@
 
 Here you can download all the latest versions of ClusterPicker, ClusterMatcher, and their documentation!
 
+If you are an advanced user, you may prefer to view this respository on GitHub itself by clicking the blue link at the top of the page. 
+
+If you're just here for the latest JAR files to run the programs, we can help you!
+
+Try going [to the release folder] (https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/release) to download.
+
 You can use the [editor on GitHub](https://github.com/emmahodcroft/emmahodcroft.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
