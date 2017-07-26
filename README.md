@@ -8,11 +8,18 @@ If you're just here for the latest jar files to run the programs, we can help yo
 
 ### Downloads
 
+#### ClusterPicker
 Download the latest ClusterPicker (command-line) [by clicking here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClusterPicker_1.2.5.jar).
+cluster-picker-and-cluster-matcher/docs/ClusterMatcher_manual.pdf
 
-Download the latest ClusterPickerGUI [by clicking here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClusterPickerGUI_1.2.5.jar).
+Download the latest ClusterPickerGUI (GUI version) [by clicking here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClusterPickerGUI_1.2.5.jar).
 
+Download the ClusterPicker manual [here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/docs/ClusterPicker1.2_Manual_Sept2015.pdf)
+
+#### ClusterMatcher
 Download the latest ClusterMatcher [by clicking here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClustMatch1.2.7.jar).
+
+Download the ClusterMatcher manual [here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/docs/ClusterMatcher_manual.pdf)
 
 ### Documents
 
