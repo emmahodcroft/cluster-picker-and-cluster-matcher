@@ -10,7 +10,6 @@ If you're just here for the latest jar files to run the programs, we can help yo
 
 #### ClusterPicker
 Download the latest ClusterPicker (command-line) [by clicking here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClusterPicker_1.2.5.jar).
-cluster-picker-and-cluster-matcher/docs/ClusterMatcher_manual.pdf
 
 Download the latest ClusterPickerGUI (GUI version) [by clicking here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/raw/master/release/ClusterPickerGUI_1.2.5.jar).
 
