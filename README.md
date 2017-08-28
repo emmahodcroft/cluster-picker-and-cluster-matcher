@@ -24,5 +24,4 @@ Download the ClusterMatcher manual [here](https://github.com/emmahodcroft/cluste
 
 For some information about when the latest jar files were built and how to run them, you can view the text file [here](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/blob/master/release/about_the_jars.txt).
 
-To to the [docs folder](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/docs) to get the lateast manual and tutorial files.
-
+To to the [docs folder](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/docs) to get the latest manual and tutorial files.
