@@ -1,0 +1,148 @@
+**Cluster Matcher**
+-------------------
+Created 2011 by Emma Hodcroft
+Leigh Brown Group, Edinburgh University
+=======================================
+
+Input files used:
+Data Set 1:
+	Newick file: C:\MyDocuments\Clusters\ClusterTutorial\CPoutput\EU1866\EU1866_clusterPicks.nwk
+	Annotation file: Will not be used (see '?' below)
+Data Set 2:
+	Newick file: C:\MyDocuments\Clusters\ClusterTutorial\CPoutput\EU3031\EU3031_clusterPicks.nwk
+	Annotation file: C:\MyDocuments\Clusters\ClusterTutorial\TestDataset_3031_epiData.csv
+
+Data set 1 had 1866 sequences and 71 clusters (containing 171 sequences (9.16%))
+Data set 2 had 3031 sequences and 228 clusters (containing 640 sequences (21.12%))
+
+
+*Preview Analysis* (No files written):
+60 clusters in data set 1 (84.51%) have more than 1 sequences that match between data sets.
+Of these, 40 clusters (56.34%) have at least 1% sequences with a Country value of UNITED KINGDOM in Data Set 1
+	Of the 103 sequences in the clusters returned from data set 1:
+		- 0 (0.0%) are SPAIN
+		- 2 (1.94%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 97 (94.17%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (2.91%) are ITALY
+		- 1 (0.97%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 0 (0.0%) are CYPRUS
+		- 0 (0.0%) have no Country value
+	Of the 190 sequences in the matching clusters returned from data set 2:
+		- 0 (0.0%) are SPAIN
+		- 2 (1.05%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 178 (93.68%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (1.58%) are ITALY
+		- 1 (0.53%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 6 (3.16%) are CYPRUS
+		- 0 (0.0%) have no Country value
+
+*Preview Analysis* (No files written):
+16 clusters in data set 1 (22.54%) have more than 2 sequences that match between data sets.
+Of these, 12 clusters (16.9%) have at least 1% sequences with a Country value of UNITED KINGDOM in Data Set 1
+	Of the 46 sequences in the clusters returned from data set 1:
+		- 0 (0.0%) are SPAIN
+		- 0 (0.0%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 43 (93.48%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (6.52%) are ITALY
+		- 0 (0.0%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 0 (0.0%) are CYPRUS
+		- 0 (0.0%) have no Country value
+	Of the 99 sequences in the matching clusters returned from data set 2:
+		- 0 (0.0%) are SPAIN
+		- 0 (0.0%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 92 (92.93%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (3.03%) are ITALY
+		- 0 (0.0%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 4 (4.04%) are CYPRUS
+		- 0 (0.0%) have no Country value
+
+*Preview Analysis* (No files written):
+60 clusters in data set 1 (84.51%) have more than 1 sequences that match between data sets.
+Of these, 41 clusters (57.75%) have at least 1% sequences with a Country value of UNITED KINGDOM in Data Set 2
+
+*Preview Analysis* (No files written):
+60 clusters in data set 1 (84.51%) have more than 1 sequences that match between data sets.
+Of these, 41 clusters (57.75%) have at least 1% sequences with a Country value of UNITED KINGDOM in Data Set 2
+
+*FigTree Files Written*:
+Output Location: C:\MyDocuments\Clusters\ClusterTutorial\CMoutput\2inputFiles
+60 clusters in data set 1 (84.51%) have more than 1 sequences that match between data sets.
+Of these, 41 clusters (57.75%) have at least 1% sequences with a Country value of UNITED KINGDOM in Data Set 2
+
+**Previously Written Files Were Deleted!**
+
+*FigTree Files Written*:
+Output Location: C:\MyDocuments\Clusters\ClusterTutorial\CMoutput\2inputFiles
+60 clusters in data set 1 (84.51%) have more than 1 sequences that match between data sets.
+Of these, 40 clusters (56.34%) have at least 1% sequences with a Country value of UNITED KINGDOM in both data sets
+	Of the 103 sequences in the clusters returned from data set 1:
+		- 0 (0.0%) are SPAIN
+		- 2 (1.94%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 97 (94.17%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (2.91%) are ITALY
+		- 1 (0.97%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 0 (0.0%) are CYPRUS
+		- 0 (0.0%) have no Country value
+	Of the 190 sequences in the matching clusters returned from data set 2:
+		- 0 (0.0%) are SPAIN
+		- 2 (1.05%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 178 (93.68%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (1.58%) are ITALY
+		- 1 (0.53%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 6 (3.16%) are CYPRUS
+		- 0 (0.0%) have no Country value
+
+**Previously Written Files Were Deleted!**
+
+*FigTree Files Written*:
+Output Location: C:\MyDocuments\Clusters\ClusterTutorial\CMoutput\2inputFiles
+60 clusters in data set 1 (84.51%) have more than 1 sequences that match between data sets.
+Of these, 40 clusters (56.34%) have at least 1% sequences with a Country value of UNITED KINGDOM in both data sets
+	Of the 103 sequences in the clusters returned from data set 1:
+		- 0 (0.0%) are SPAIN
+		- 2 (1.94%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 97 (94.17%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (2.91%) are ITALY
+		- 1 (0.97%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 0 (0.0%) are CYPRUS
+		- 0 (0.0%) have no Country value
+	Of the 190 sequences in the matching clusters returned from data set 2:
+		- 0 (0.0%) are SPAIN
+		- 2 (1.05%) are BELGIUM
+		- 0 (0.0%) are GERMANY
+		- 0 (0.0%) are FRANCE
+		- 178 (93.68%) are UNITED KINGDOM
+		- 0 (0.0%) are GREECE
+		- 3 (1.58%) are ITALY
+		- 1 (0.53%) are CZECH REPUBLIC
+		- 0 (0.0%) are DENMARK
+		- 6 (3.16%) are CYPRUS
+		- 0 (0.0%) have no Country value
