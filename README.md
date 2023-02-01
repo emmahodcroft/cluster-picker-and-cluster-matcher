@@ -1,5 +1,7 @@
 ## Welcome to ClusterPicker and ClusterMatcher GitHub!
 
+_Please note these programs are no longer actively maintained (since 2017)_
+
 Here you can download all the latest versions of ClusterPicker, ClusterMatcher, and their documentation!
 
 If you are an advanced user, you may prefer to view this respository on GitHub itself by clicking the blue link at the top of the page. 
@@ -26,3 +28,6 @@ For some information about when the latest jar files were built and how to run t
 
 To to the [docs folder](https://github.com/emmahodcroft/cluster-picker-and-cluster-matcher/tree/master/docs) to get the lateast manual and tutorial files.
 
+### Tutorial
+
+You can see the files related to a 2016 tutorial in the Tutorial folder
